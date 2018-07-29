@@ -12,12 +12,11 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-#include <OpenGLHelpers/OpenGLTexture.h>
+#include <LibOpenGL/OpenGLTexture.h>
 
 #include <future>
 #include <vector>
 #include <memory>
-
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 void OpenGLTexture::OpenGLTexture::createTexture(GLenum textureTarget)
@@ -175,7 +174,7 @@ void OpenGLTexture::OpenGLTexture::release()
 #include <QStringList>
 #include <QString>
 
-void OpenGLTexture::loadTextures(std::vector<SharedPtr<OpenGLTexture> >& textures, QString textureFolder, bool insertNullTex /*= true*/, bool bGenMipMap /*= true*/)
+void OpenGLTexture::loadTextures(std::vector<SharedPtr<OpenGLTexture>>& textures, QString textureFolder, bool insertNullTex /*= true*/, bool bGenMipMap /*= true*/)
 {
     // clear current textures
     textures.resize(0);
@@ -191,7 +190,7 @@ void OpenGLTexture::loadTextures(std::vector<SharedPtr<OpenGLTexture> >& texture
     std::vector<QImage> textureImages;
     textureImages.resize(allTexFiles.count());
 
-    std::vector<std::future<void> > futureObjs;
+    std::vector<std::future<void>> futureObjs;
 
     for(int i = 0; i < allTexFiles.count(); ++i) {
         QString texFilePath = textureFolder + "/" + allTexFiles[i];
@@ -239,4 +238,3 @@ QStringList OpenGLTexture::getTextureFiles(QString texType, QString texRootFolde
 }
 
 #endif
-

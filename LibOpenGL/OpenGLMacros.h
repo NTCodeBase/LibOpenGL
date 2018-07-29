@@ -15,10 +15,10 @@
 #pragma once
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#include <Setup.h>
+#include <CommonSetup.h>
 
 #if defined(QT_GUI_LIB) || defined(QT_CORE_LIB)
-#   include <QtAppHelpers/QtAppMacros.h>
+#   include <LibQtApps/QtAppMacros.h>
 #else // no Qt
 #   define GLEW_STATIC
 //#   include <GL/glew.h>
@@ -111,4 +111,3 @@ protected:
     OpenGLCallable() {}
 };
 #endif
-

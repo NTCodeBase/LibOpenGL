@@ -14,8 +14,7 @@
 
 #pragma once
 
-#include <OpenGLHelpers/OpenGLMacros.h>
-
+#include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class OpenGLTexture : public OpenGLCallable
@@ -37,13 +36,13 @@ public:
     void setSimplestTexture();
 
     GLuint getTextureID() const { return m_TextureID; }
-    void   bind(GLuint texUnit = 0);
-    void   release();
+    void bind(GLuint texUnit = 0);
+    void release();
 
 #ifdef __Banana_Qt__
-    static void        loadTextures(std::vector<SharedPtr<OpenGLTexture> >& textures, QString textureFolder, bool insertNullTex = true, bool bGenMipMap = true);
-    static QStringList getTextureFolders(QString texType, QString texRootFolder = QString("Textures"));
-    static QStringList getTextureFiles(QString texType, QString texRootFolder = QString("Textures"));
+    static void        loadTextures(std::vector<SharedPtr<OpenGLTexture>>& textures, QString textureFolder, bool insertNullTex = true, bool bGenMipMap = true);
+    static QStringList getTextureFolders(QString texType, QString texRootFolder                                                = QString("Textures"));
+    static QStringList getTextureFiles(QString texType, QString texRootFolder                                                  = QString("Textures"));
 #endif
 
 private:
@@ -54,4 +53,3 @@ private:
     GLuint m_BindedTexUnit;
     bool   m_bTextureCreated;
 };
-

@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include <OpenGLHelpers/OpenGLMacros.h>
+#include <LibOpenGL/OpenGLMacros.h>
 
 #include <string>
 #include <vector>
@@ -22,7 +22,6 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
-
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class ShaderProgram : public OpenGLCallable
@@ -54,8 +53,8 @@ public:
     void bind() { glCall(glUseProgram(m_ProgramID)); }
     void release() { glCall(glUseProgram(0)); }
 
-    GLuint getAtributeLocation(const char* atributeName, bool dieOnError = true);
-    GLuint getUniformLocation(const char* uniformName, bool dieOnError = true);
+    GLuint getAtributeLocation(const char* atributeName, bool dieOnError      = true);
+    GLuint getUniformLocation(const char* uniformName, bool dieOnError        = true);
     GLuint getUniformBlockIndex(const char* uniformBlockName, bool dieOnError = true);
     void   bindUniformBlock(GLuint blockIndex, GLuint bindingPoint);
 
@@ -103,18 +102,17 @@ protected:
     Map<GLenum, String> m_ShaderSourceFiles;
 
 public:
-    static SharedPtr<ShaderProgram> getSimpleVertexColorShader(String programName = String("SimpleVertexColorShader"));
-    static SharedPtr<ShaderProgram> getSimpleUniformColorShader(String programName = String("SimpleUniformColorShader"));
-    static SharedPtr<ShaderProgram> getSimpleTextureShader(String programName = String("SimpleTextureShader"));
-    static SharedPtr<ShaderProgram> getSimpleLightSpaceDepthShader(String programName = String("SimpleLightSpaceDepthShader"));
-    static SharedPtr<ShaderProgram> getSimpleCameraSpaceDepthShader(String programName = String("SimpleCameraSpaceDepthShader"));
-    static SharedPtr<ShaderProgram> getObjUniformColorShader(String programName = String("ObjUniformColorShader"));
-    static SharedPtr<ShaderProgram> getObjTextureShader(String programName = String("ObjTextureShader"));
-    static SharedPtr<ShaderProgram> getPhongShader(String programName = String("PhongShader"));
-    static SharedPtr<ShaderProgram> getSkyBoxShader(String programName = String("SkyBoxShader"));
-    static SharedPtr<ShaderProgram> getScreenQuadShader(const char* fragmentShaderSource, String programName = String("ScreenQuadShader"));
+    static SharedPtr<ShaderProgram> getSimpleVertexColorShader(String programName                                  = String("SimpleVertexColorShader"));
+    static SharedPtr<ShaderProgram> getSimpleUniformColorShader(String programName                                 = String("SimpleUniformColorShader"));
+    static SharedPtr<ShaderProgram> getSimpleTextureShader(String programName                                      = String("SimpleTextureShader"));
+    static SharedPtr<ShaderProgram> getSimpleLightSpaceDepthShader(String programName                              = String("SimpleLightSpaceDepthShader"));
+    static SharedPtr<ShaderProgram> getSimpleCameraSpaceDepthShader(String programName                             = String("SimpleCameraSpaceDepthShader"));
+    static SharedPtr<ShaderProgram> getObjUniformColorShader(String programName                                    = String("ObjUniformColorShader"));
+    static SharedPtr<ShaderProgram> getObjTextureShader(String programName                                         = String("ObjTextureShader"));
+    static SharedPtr<ShaderProgram> getPhongShader(String programName                                              = String("PhongShader"));
+    static SharedPtr<ShaderProgram> getSkyBoxShader(String programName                                             = String("SkyBoxShader"));
+    static SharedPtr<ShaderProgram> getScreenQuadShader(const char* fragmentShaderSource, String programName       = String("ScreenQuadShader"));
     static SharedPtr<ShaderProgram> getScreenQuadShaderFromFile(const char* fragmentShaderFile, String programName = String("ScreenQuadShader"));
-    static SharedPtr<ShaderProgram> getCheckerboardBackgroundShader(String programName = String("CheckerboardShader"));
-    static SharedPtr<ShaderProgram> getGridBackgroundShader(String programName = String("CheckerboardShader"));
+    static SharedPtr<ShaderProgram> getCheckerboardBackgroundShader(String programName                             = String("CheckerboardShader"));
+    static SharedPtr<ShaderProgram> getGridBackgroundShader(String programName                                     = String("CheckerboardShader"));
 };
-

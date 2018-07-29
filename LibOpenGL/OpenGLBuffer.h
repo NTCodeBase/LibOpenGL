@@ -15,8 +15,7 @@
 #pragma once
 
 #include <cstddef>
-#include <OpenGLHelpers/OpenGLMacros.h>
-
+#include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class OpenGLBuffer : public OpenGLCallable
@@ -52,4 +51,3 @@ private:
     GLuint        m_BindingPoint;
     static GLuint s_TotalBindingPoints;
 };
-

@@ -16,8 +16,8 @@
 
 #include <vector>
 
-#include <OpenGLHelpers/OpenGLMacros.h>
-#include <OpenGLHelpers/OpenGLBuffer.h>
+#include <LibOpenGL/OpenGLMacros.h>
+#include <LibOpenGL/OpenGLBuffer.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 /*
@@ -48,7 +48,6 @@
    YellowRubber   0.05     0.05     0.0      0.5      0.5        0.4        0.7        0.7        0.04       .078125
  */
 
-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class Material : public OpenGLCallable
 {
@@ -64,7 +63,7 @@ public:
         static size_t getSize() { return 3 * sizeof(Vec4f) + sizeof(GLfloat); }
     };
 
-    Material(String materialName = String("NoName"));
+    Material(String materialName                               = String("NoName"));
     Material(const MaterialData& material, String materialName = String("NoName"));
 
     void createUniformBuffer();
@@ -123,4 +122,3 @@ protected:
     OpenGLBuffer m_UniformBuffer;
     MaterialData m_MaterialData;
 };
-

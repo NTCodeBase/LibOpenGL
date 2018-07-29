@@ -14,8 +14,7 @@
 
 #pragma once
 
-#include <OpenGLHelpers/OpenGLMacros.h>
-
+#include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class Camera
@@ -78,8 +77,8 @@ public:
     bool        isCameraChanged() { return m_bDirty; }
     auto        getProjection() const { return m_Projection; }
     const auto& getFrustum() const { return m_Frustum; }
-    Vec3f       getOrthoBoxMin() const;
-    Vec3f       getOrthoBoxMax() const;
+    Vec3f getOrthoBoxMin() const;
+    Vec3f getOrthoBoxMax() const;
 
     const auto& getCameraPosition() const { return m_CameraPosition; }
     const auto& getCameraFocus() const { return m_CameraFocus; }
@@ -91,7 +90,6 @@ public:
 
     auto getCameraDirection() const { return glm::normalize(m_CameraFocus - m_CameraPosition); }
     auto getInverseViewMatrix() const { return glm::inverse(m_ViewMatrix); }
-
 
 private:
     bool m_bDirty       = true;
@@ -133,4 +131,3 @@ private:
 
     Projection m_Projection = PerspectiveProjection;
 };
-

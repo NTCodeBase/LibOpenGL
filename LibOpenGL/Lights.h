@@ -14,8 +14,8 @@
 
 #pragma once
 
-#include <OpenGLHelpers/OpenGLMacros.h>
-#include <OpenGLHelpers/OpenGLBuffer.h>
+#include <LibOpenGL/OpenGLMacros.h>
+#include <LibOpenGL/OpenGLBuffer.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 #define MAX_NUM_LIGHTS 4
@@ -37,8 +37,8 @@ public:
     int  getNumLights() const { return m_NumActiveLights; }
     void createUniformBuffer();
 
-    virtual void setLightAmbient(const Vec4f& ambient, int lightID = 0) = 0;
-    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID = 0) = 0;
+    virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) = 0;
+    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) = 0;
     virtual void setLightSpecular(const Vec4f& specular, int lightID = 0) = 0;
 
     virtual const Vec4f& getLightAmbient(int lightID  = 0) const = 0;
@@ -88,13 +88,13 @@ public:
     };
 
     void        setLight(const DirectionalLightData& lightData, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID] = lightData; }
-    const auto& getLight(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
+    const auto& getLight(int lightID                                        = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
     void        setLightDirection(const Vec4f& direction, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
-    const auto& getLightDirection(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].direction; }
+    const auto& getLightDirection(int lightID                         = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].direction; }
 
-    virtual void setLightAmbient(const Vec4f& ambient, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
-    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
+    virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
+    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
     virtual void setLightSpecular(const Vec4f& specular, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].specular = specular; }
 
     virtual const Vec4f& getLightAmbient(int lightID  = 0) const override { assert(lightID < m_NumActiveLights); return m_Lights[lightID].ambient; }
@@ -135,10 +135,10 @@ public:
     const auto& getLight(int lightID) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
     void        setLightPosition(const Vec4f& position, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
-    const auto& getLightPosition(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
+    const auto& getLightPosition(int lightID                        = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
 
-    virtual void setLightAmbient(const Vec4f& ambient, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
-    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
+    virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
+    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
     virtual void setLightSpecular(const Vec4f& specular, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].specular = specular; }
 
     virtual const Vec4f& getLightAmbient(int lightID  = 0) const override { assert(lightID < m_NumActiveLights); return m_Lights[lightID].ambient; }
@@ -176,10 +176,10 @@ public:
     };
 
     void        setLight(const SpotLightData& lightData, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID] = lightData; }
-    const auto& getLight(int lightID = 0) { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
+    const auto& getLight(int lightID                                 = 0) { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
-    void setLightPosition(const Vec4f& position, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
-    void setLightDirection(const Vec4f& direction, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
+    void setLightPosition(const Vec4f& position, int lightID                   = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
+    void setLightDirection(const Vec4f& direction, int lightID                 = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
     void setLightCuffOffAngles(float innerAngle, float outerAngle, int lightID = 0);
 
     const auto& getLightPosition(int lightID    = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
@@ -187,8 +187,8 @@ public:
     auto        getInnerCutOffAngle(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].innerCutOffAngle; }
     auto        getOuterCutOffAngle(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].outerCutOffAngle; }
 
-    virtual void setLightAmbient(const Vec4f& ambient, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
-    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
+    virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
+    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
     virtual void setLightSpecular(const Vec4f& specular, int lightID = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].specular = specular; }
 
     virtual const Vec4f& getLightAmbient(int lightID  = 0) const override { assert(lightID < m_NumActiveLights); return m_Lights[lightID].ambient; }

@@ -12,7 +12,7 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-#include <OpenGLHelpers/RenderObjects.h>
+#include <LibOpenGL/RenderObjects.h>
 
 #include <future>
 #include <vector>
@@ -84,7 +84,7 @@ void SkyBoxRender::loadTextures(QString textureTopFolder)
                                                loadSuccess[i] = 1;
 
                                                for(GLuint j = 0; j < 6; ++j) {
-                                                   QString texFilePath = texFolderPath + texFaces[j] + ext;
+                                                   QString texFilePath      = texFolderPath + texFaces[j] + ext;
                                                    textureImages[i * 6 + j] = QImage(texFilePath).convertToFormat(QImage::Format_RGBA8888);
                                                }
                                            }));

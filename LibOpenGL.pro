@@ -12,19 +12,19 @@
 #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-include($$PWD/../../Common.pri)
+include($$PWD/../LibCommon/LibCommon.pri)
+INCLUDEPATH += $$PWD/../LibQtApps
+INCLUDEPATH += $$PWD/
 
 QT += core gui widgets
 
-TARGET = OpenGLHelpers
+TARGET = LibOpenGL
 TEMPLATE = lib
 CONFIG += staticlib
 
 HEADERS = $$files(*.h, true)
 HEADERS += $$files(*.hpp, true)
 SOURCES += $$files(*.cpp, true)
-
-DISTFILES += OpenGLHelpers.pri
 
 #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 CONFIG(debug, debug|release) {

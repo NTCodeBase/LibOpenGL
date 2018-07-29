@@ -16,8 +16,7 @@
 
 #include <array>
 
-#include <OpenGLHelpers/MeshObjects/MeshObject.h>
-
+#include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class CubeObject : public MeshObject
@@ -165,4 +164,3 @@ public:
         m_hasIndexBuffer    = true;
     }
 };
-

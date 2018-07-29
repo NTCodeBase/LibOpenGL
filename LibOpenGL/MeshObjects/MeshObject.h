@@ -14,10 +14,9 @@
 
 #pragma once
 
-#include <Setup.h>
-#include <OpenGLHelpers/OpenGLMacros.h>
-#include <OpenGLHelpers/OpenGLBuffer.h>
-
+#include <CommonSetup.h>
+#include <LibOpenGL/OpenGLMacros.h>
+#include <LibOpenGL/OpenGLBuffer.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class MeshObject : public OpenGLCallable
@@ -68,7 +67,7 @@ public:
     void draw();
     void uploadDataToGPU();
 
-    void   clearData();
+    void clearData();
     bool   isEmpty() const { return !m_isDataReady; }
     size_t getNVertices() const { return m_NVertices; }
 
@@ -130,4 +129,3 @@ protected:
     Vec3f m_Scale       = Vec3f(1);
     Vec3f m_Rotation    = Vec3f(0);
 };
-

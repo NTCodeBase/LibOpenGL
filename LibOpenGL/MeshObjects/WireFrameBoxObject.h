@@ -16,8 +16,7 @@
 
 #include <array>
 
-#include <OpenGLHelpers/MeshObjects/MeshObject.h>
-
+#include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class WireFrameBoxObject : public MeshObject
@@ -83,4 +82,3 @@ public:
         };
     }
 };
-

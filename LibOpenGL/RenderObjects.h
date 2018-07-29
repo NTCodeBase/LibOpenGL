@@ -14,17 +14,16 @@
 
 #pragma once
 
-#include <OpenGLHelpers/OpenGLMacros.h>
-#include <OpenGLHelpers/Camera.h>
-#include <OpenGLHelpers/ShaderProgram.h>
-#include <OpenGLHelpers/OpenGLBuffer.h>
-#include <OpenGLHelpers/OpenGLTexture.h>
-#include <OpenGLHelpers/MeshObjects/CubeObject.h>
-#include <OpenGLHelpers/MeshObjects/GridObject.h>
-#include <OpenGLHelpers/MeshObjects/WireFrameBoxObject.h>
-
-#include <OpenGLHelpers/Lights.h>
-#include <OpenGLHelpers/Material.h>
+#include <LibOpenGL/Camera.h>
+#include <LibOpenGL/Lights.h>
+#include <LibOpenGL/Material.h>
+#include <LibOpenGL/OpenGLMacros.h>
+#include <LibOpenGL/OpenGLBuffer.h>
+#include <LibOpenGL/OpenGLTexture.h>
+#include <LibOpenGL/ShaderProgram.h>
+#include <LibOpenGL/MeshObjects/CubeObject.h>
+#include <LibOpenGL/MeshObjects/GridObject.h>
+#include <LibOpenGL/MeshObjects/WireFrameBoxObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

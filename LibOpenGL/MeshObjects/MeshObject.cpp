@@ -12,11 +12,10 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-#include <Core/Utils/NumberHelpers.h>
-#include <Core/Utils/MathHelpers.h>
-#include <Core/ParallelHelpers/Scheduler.h>
-#include <OpenGLHelpers/MeshObjects/MeshObject.h>
-
+#include <Utils/NumberHelpers.h>
+#include <Utils/MathHelpers.h>
+#include <ParallelHelpers/Scheduler.h>
+#include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 MeshObject::~MeshObject()
@@ -410,4 +409,3 @@ void MeshObject::setElementIndex(const Vector<GLushort>& indices)
     m_IndexList.resize(indices.size());
     std::copy(indices.begin(), indices.end(), m_IndexList.begin());
 }
-

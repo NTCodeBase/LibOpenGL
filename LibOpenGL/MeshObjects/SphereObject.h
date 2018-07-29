@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include <OpenGLHelpers/MeshObjects/MeshObject.h>
+#include <MeshObjects/MeshObject.h>
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
