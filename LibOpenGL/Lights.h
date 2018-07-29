@@ -20,7 +20,7 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 #define MAX_NUM_LIGHTS 4
 
-//#ifdef __BANANA_WINDOWS__
+//#ifdef __NT_WINDOWS_OS__
 //#  define MAX_NUM_LIGHTS 8
 //#else
 //#  define MAX_NUM_LIGHTS 2

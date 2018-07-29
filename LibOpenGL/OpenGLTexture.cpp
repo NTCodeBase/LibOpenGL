@@ -169,7 +169,7 @@ void OpenGLTexture::OpenGLTexture::release()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#ifdef __Banana_Qt__
+#ifdef __NT_QT__
 #include <QDir>
 #include <QStringList>
 #include <QString>

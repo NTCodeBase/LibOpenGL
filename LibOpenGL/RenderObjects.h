@@ -64,7 +64,7 @@ protected:
 class SkyBoxRender : public RenderObject
 {
 public:
-#ifdef __Banana_Qt__
+#ifdef __NT_QT__
     SkyBoxRender(const SharedPtr<Camera>& camera, QString texureTopFolder, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
         RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr)
     {
@@ -357,7 +357,7 @@ private:
 class MeshRender : public RenderObject
 {
 public:
-#ifdef __Banana_Qt__
+#ifdef __NT_QT__
     MeshRender(const SharedPtr<MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
                QString textureFolder,
                const SharedPtr<Material>& material = nullptr, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
@@ -460,7 +460,7 @@ protected:
 class PlaneRender : public MeshRender
 {
 public:
-#ifdef __Banana_Qt__
+#ifdef __NT_QT__
     PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, QString textureFolder,
                 const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
         MeshRender(std::make_shared<GridObject>(), camera, light, textureFolder, nullptr, bufferCamData) {}

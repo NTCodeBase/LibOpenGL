@@ -125,10 +125,10 @@ GLuint ShaderProgram::getAtributeLocation(const char* atributeName,
     GLint location = glCall(glGetAttribLocation(m_ProgramID, atributeName));
 
     if(location < 0 && dieOnError) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("%1: Attribute %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(atributeName));
+#ifdef __NT_QT__
+        __NT_DIE(QString("%1: Attribute %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(atributeName));
 #else
-        __BNN_DIE(("%s: Attribute %s not found!\n", m_ProgramName.c_str(), atributeName));
+        __NT_DIE(("%s: Attribute %s not found!\n", m_ProgramName.c_str(), atributeName));
 #endif
     }
 
@@ -142,10 +142,10 @@ GLuint ShaderProgram::getUniformLocation(const char* uniformName,
     GLint location = glCall(glGetUniformLocation(m_ProgramID, uniformName));
 
     if(location < 0 && dieOnError) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("%1: Uniform location %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(QString(uniformName)));
+#ifdef __NT_QT__
+        __NT_DIE(QString("%1: Uniform location %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(QString(uniformName)));
 #else
-        __BNN_DIE(("%s: Uniform location %s not found!\n", m_ProgramName.c_str(), uniformName));
+        __NT_DIE(("%s: Uniform location %s not found!\n", m_ProgramName.c_str(), uniformName));
 #endif
     }
 
@@ -158,10 +158,10 @@ GLuint ShaderProgram::getUniformBlockIndex(const char* uniformBlockName, bool di
     GLuint location = glCall(glGetUniformBlockIndex(m_ProgramID, uniformBlockName));
 
     if(location == GL_INVALID_INDEX && dieOnError) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("%1: Uniform block index %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(QString(uniformBlockName)));
+#ifdef __NT_QT__
+        __NT_DIE(QString("%1: Uniform block index %2 not found!").arg(QString::fromStdString(m_ProgramName)).arg(QString(uniformBlockName)));
 #else
-        __BNN_DIE(("%s: Uniform location %s not found!\n", m_ProgramName.c_str(), uniformBlockName));
+        __NT_DIE(("%s: Uniform location %s not found!\n", m_ProgramName.c_str(), uniformBlockName));
 #endif
     }
 
@@ -264,8 +264,8 @@ bool ShaderProgram::checkCompileError(GLuint shader, GLenum shaderType)
             shaderName = "InvalidShader";
         }
 
-#ifdef __Banana_Qt__
-        __BNN_INFO(QString("%1: %2 failed to compile!\n  => : %3").arg(QString::fromStdString(m_ProgramName)).arg(QString::fromStdString(shaderName)).arg(infoLog));
+#ifdef __NT_QT__
+        __NT_INFO(QString("%1: %2 failed to compile!\n  => : %3").arg(QString::fromStdString(m_ProgramName)).arg(QString::fromStdString(shaderName)).arg(infoLog));
 #else
         std::cout << "ERROR: " << shaderName << " failed to compile!" << std::endl << "  => : " << infoLog << std::endl;
 #endif
@@ -283,10 +283,10 @@ bool ShaderProgram::checkLinkError(GLuint program)
 
     if(!success) {
         glCall(glGetProgramInfoLog(program, 1024, NULL, infoLog));
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("%1: Program failed to link!\n  => : ").arg(QString::fromStdString(m_ProgramName)) + QString(infoLog));
+#ifdef __NT_QT__
+        __NT_DIE(QString("%1: Program failed to link!\n  => : ").arg(QString::fromStdString(m_ProgramName)) + QString(infoLog));
 #else
-        __BNN_DIE(("%s: Program failed to link!\n   => : ", m_ProgramName.c_str(), infoLog));
+        __NT_DIE(("%s: Program failed to link!\n   => : ", m_ProgramName.c_str(), infoLog));
 #endif
     }
 
@@ -298,10 +298,10 @@ void ShaderProgram::loadFile(String& fileContent, const char* fileName)
 {
     std::ifstream file(fileName);
     if(!file.is_open()) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("%1: Cannot open file %2 for reading!").arg(QString::fromStdString(m_ProgramName)).arg(QString(fileName)));
+#ifdef __NT_QT__
+        __NT_DIE(QString("%1: Cannot open file %2 for reading!").arg(QString::fromStdString(m_ProgramName)).arg(QString(fileName)));
 #else
-        __BNN_DIE(("%s: Cannot open file %s for reading!\n", m_ProgramName.c_str(), fileName));
+        __NT_DIE(("%s: Cannot open file %s for reading!\n", m_ProgramName.c_str(), fileName));
 #endif
     }
 

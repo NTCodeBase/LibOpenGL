@@ -100,7 +100,7 @@ void MeshObject::setVertices(const Vector<GLfloat>& vertices)
 void MeshObject::setVertices(void* vertexData, size_t dataSize)
 {
     m_NVertices = dataSize / 3 / sizeof(GLfloat);
-    __BNN_REQUIRE(m_NVertices * 3 * sizeof(GLfloat) == dataSize);
+    __NT_REQUIRE(m_NVertices * 3 * sizeof(GLfloat) == dataSize);
     m_Vertices.resize(m_NVertices);
     std::memcpy((void*)m_Vertices.data(), vertexData, dataSize);
 

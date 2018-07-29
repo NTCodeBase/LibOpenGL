@@ -22,7 +22,7 @@
 // SkyBox render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#ifdef __Banana_Qt__
+#ifdef __NT_QT__
 #include <QDir>
 void SkyBoxRender::loadTextures(QString textureTopFolder)
 {
@@ -487,10 +487,10 @@ void OffScreenRender::setNumColorBuffers(int numColorBuffers)
 
         // check error
         if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-#ifdef __Banana_Qt__
-            __BNN_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
+#ifdef __NT_QT__
+            __NT_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
 #else
-            __BNN_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
+            __NT_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
 #endif
         }
 
@@ -524,10 +524,10 @@ void OffScreenRender::swapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int
     glCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + bufferID, GL_TEXTURE_2D, m_ColorBuffers[bufferID]->getTextureID(), 0));
     // check error
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
+#ifdef __NT_QT__
+        __NT_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
 #else
-        __BNN_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
+        __NT_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
 #endif
     }
 
@@ -572,10 +572,10 @@ void OffScreenRender::initRenderData()
 
     // check error
     if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-#ifdef __Banana_Qt__
-        __BNN_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
+#ifdef __NT_QT__
+        __NT_DIE(QString("OffScreenRender: FrameBuffer is incomplete!"));
 #else
-        __BNN_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
+        __NT_DIE(("%s: FrameBuffer is incomplete!\n", m_Shader->getProgramName().c_str()));
 #endif
     }
 
@@ -1144,7 +1144,7 @@ void MeshRender::initRenderData()
     m_UTexSampler = m_Shader->getUniformLocation("u_TexSampler");
     for(int i = 0; i < MAX_NUM_LIGHTS; ++i) {
         char buff[128];
-        __BNN_SPRINT(buff, "u_ShadowMap[%d]", i);
+        __NT_SPRINT(buff, "u_ShadowMap[%d]", i);
         m_UShadowMap[i] = m_Shader->getUniformLocation(buff);
     }
     m_UExposure = m_Shader->getUniformLocation("u_Exposure");
