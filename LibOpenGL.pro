@@ -22,9 +22,8 @@ TARGET = LibOpenGL
 TEMPLATE = lib
 CONFIG += staticlib
 
-HEADERS = $$files(*.h, true)
-HEADERS += $$files(*.hpp, true)
-SOURCES += $$files(*.cpp, true)
+HEADERS = $$files($$PWD/LibOpenGL/*.h, true)
+SOURCES += $$files($$PWD/LibOpenGL/*.cpp, true)
 
 #-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 CONFIG(debug, debug|release) {
