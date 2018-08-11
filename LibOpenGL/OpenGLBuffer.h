@@ -29,9 +29,9 @@ public:
     void createBuffer(GLenum bufferType, size_t bufferSize, const GLvoid* buffData = nullptr, GLenum bufferUsage = GL_STATIC_DRAW);
     void resize(size_t bufferSize);
     void uploadData(const GLvoid* data, size_t offset, size_t dataSize);
-    void uploadData(const Vector<const GLvoid*>& data, size_t offset, const Vector<size_t>& dataSize);
+    void uploadData(const StdVT<const GLvoid*>& data, size_t offset, const StdVT<size_t>& dataSize);
     void uploadDataAsync(const GLvoid* data, size_t offset, size_t dataSize);
-    void uploadDataAsync(const Vector<const GLvoid*>& data, size_t offset, const Vector<size_t>& dataSize);
+    void uploadDataAsync(const StdVT<const GLvoid*>& data, size_t offset, const StdVT<size_t>& dataSize);
     void bind();
     void bindBufferBase();
     void release();

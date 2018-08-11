@@ -74,7 +74,7 @@ void OpenGLBuffer::uploadData(const GLvoid* data, size_t offset, size_t dataSize
     glCall(glBindBuffer(m_BufferType, 0));
 }
 
-void OpenGLBuffer::uploadData(const Vector<const GLvoid*>& data, size_t offset, const Vector<size_t>& dataSize)
+void OpenGLBuffer::uploadData(const StdVT<const GLvoid*>& data, size_t offset, const StdVT<size_t>& dataSize)
 {
     size_t currentOffset = offset;
     glCall(glBindBuffer(m_BufferType, m_BufferID));
@@ -97,7 +97,7 @@ void OpenGLBuffer::uploadDataAsync(const GLvoid* data, size_t offset, size_t dat
     m_BufferSize = dataSize;
 }
 
-void OpenGLBuffer::uploadDataAsync(const Vector<const GLvoid*>& data, size_t offset, const Vector<size_t>& dataSize)
+void OpenGLBuffer::uploadDataAsync(const StdVT<const GLvoid*>& data, size_t offset, const StdVT<size_t>& dataSize)
 {
     size_t totalDataSize = 0;
     for(size_t size: dataSize) {

@@ -97,7 +97,7 @@ protected:
     bool                m_isProgramLinked;
     GLuint              m_ProgramID;
     String              m_ProgramName;
-    Vector<GLuint>      m_ShaderIDs;
+    StdVT<GLuint>       m_ShaderIDs;
     Map<GLenum, String> m_ShaderSourceCodes;
     Map<GLenum, String> m_ShaderSourceFiles;
 

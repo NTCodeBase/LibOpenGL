@@ -81,7 +81,7 @@ public:
         initRenderData();
     }
 
-    SkyBoxRender(const SharedPtr<Camera>& camera, const Vector<SharedPtr<OpenGLTexture>>& textures, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
+    SkyBoxRender(const SharedPtr<Camera>& camera, const StdVT<SharedPtr<OpenGLTexture>>& textures, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
         RenderObject(camera, bufferCamData), m_Textures(textures), m_CurrentTexture(nullptr)
     {
         initRenderData();
@@ -99,11 +99,11 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                           m_AtrVPosition;
-    GLuint                           m_UTexSampler;
-    UniquePtr<CubeObject>            m_CubeObj;
-    SharedPtr<OpenGLTexture>         m_CurrentTexture;
-    Vector<SharedPtr<OpenGLTexture>> m_Textures;
+    GLuint                          m_AtrVPosition;
+    GLuint                          m_UTexSampler;
+    UniquePtr<CubeObject>           m_CubeObj;
+    SharedPtr<OpenGLTexture>        m_CurrentTexture;
+    StdVT<SharedPtr<OpenGLTexture>> m_Textures;
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -193,13 +193,13 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    int                              m_BufferWidth;
-    int                              m_BufferHeight;
-    int                              m_NumColorBuffers;
-    GLenum                           m_FormatColorBuff;
-    GLuint                           m_FrameBufferID;
-    GLuint                           m_RenderBufferID;
-    Vector<SharedPtr<OpenGLTexture>> m_ColorBuffers;
+    int                             m_BufferWidth;
+    int                             m_BufferHeight;
+    int                             m_NumColorBuffers;
+    GLenum                          m_FormatColorBuff;
+    GLuint                          m_FrameBufferID;
+    GLuint                          m_RenderBufferID;
+    StdVT<SharedPtr<OpenGLTexture>> m_ColorBuffers;
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -389,7 +389,7 @@ public:
     void clearTextures(bool insertNullTex                                       = true);
     void addTexture(const SharedPtr<OpenGLTexture>& texture, GLenum texWrapMode = GL_REPEAT);
     void setRenderTextureIndex(int texIndex);
-    void setExternalShadowMaps(const Vector<SharedPtr<OpenGLTexture>>& shadowMaps);
+    void setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps);
     void resizeShadowMap(int width, int height);
     void setExposure(float exposure) { m_Exposure = exposure; }
     void transform(const Vec3f& translation, const Vec3f& scales);
@@ -397,9 +397,9 @@ public:
     void scale(const Vec3f& scales) { m_Scales = scales; transform(m_Translation, scales); }
     void setupVAO();
 
-    SharedPtr<OpenGLTexture>&        getLightShadowMap(int lightID = 0);
-    Vector<SharedPtr<OpenGLTexture>> getAllLightShadowMaps();
-    SharedPtr<OpenGLTexture>&        getCameraShadowMap();
+    SharedPtr<OpenGLTexture>&       getLightShadowMap(int lightID = 0);
+    StdVT<SharedPtr<OpenGLTexture>> getAllLightShadowMaps();
+    SharedPtr<OpenGLTexture>&       getCameraShadowMap();
 
     virtual void render() override;
 
@@ -410,24 +410,24 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                           m_AtrVPosition;
-    GLuint                           m_AtrVNormal;
-    GLuint                           m_AtrVTexCoord;
-    GLuint                           m_UBLight;
-    GLuint                           m_UBLightMatrices;
-    GLuint                           m_LDSULightID;
-    GLuint                           m_UBMaterial;
-    GLuint                           m_UHasTexture;
-    GLuint                           m_UHasShadow;
-    GLuint                           m_UTexSampler;
-    GLuint                           m_UShadowMap[MAX_NUM_LIGHTS];
-    GLuint                           m_UExposure;
-    SharedPtr<MeshObject>            m_MeshObj;
-    SharedPtr<PointLights>           m_Lights;
-    SharedPtr<Material>              m_Material;
-    Vector<SharedPtr<OpenGLTexture>> m_Textures;
-    SharedPtr<OpenGLTexture>         m_CurrentTexture;
-    Vector<SharedPtr<OpenGLTexture>> m_ExternalShadowMaps;
+    GLuint                          m_AtrVPosition;
+    GLuint                          m_AtrVNormal;
+    GLuint                          m_AtrVTexCoord;
+    GLuint                          m_UBLight;
+    GLuint                          m_UBLightMatrices;
+    GLuint                          m_LDSULightID;
+    GLuint                          m_UBMaterial;
+    GLuint                          m_UHasTexture;
+    GLuint                          m_UHasShadow;
+    GLuint                          m_UTexSampler;
+    GLuint                          m_UShadowMap[MAX_NUM_LIGHTS];
+    GLuint                          m_UExposure;
+    SharedPtr<MeshObject>           m_MeshObj;
+    SharedPtr<PointLights>          m_Lights;
+    SharedPtr<Material>             m_Material;
+    StdVT<SharedPtr<OpenGLTexture>> m_Textures;
+    SharedPtr<OpenGLTexture>        m_CurrentTexture;
+    StdVT<SharedPtr<OpenGLTexture>> m_ExternalShadowMaps;
 
     bool    m_DepthBufferInitialized = false;
     GLint   m_ShadowBufferWidth;
@@ -442,14 +442,14 @@ protected:
     GLuint  m_CDSUBCameraData;
     GLuint  m_CDSVAO;
 
-    Vec3f                                m_Translation = Vec3f(0);
-    Vec3f                                m_Scales      = Vec3f(1.0);
-    SharedPtr<ShaderProgram>             m_LightDepthShader;
-    SharedPtr<ShaderProgram>             m_CameraDepthShader;
-    Vector<UniquePtr<DepthBufferRender>> m_LightDepthBufferRenders;
-    UniquePtr<DepthBufferRender>         m_CameraDepthBufferRender;
-    Mat4x4f                              m_LightView[MAX_NUM_LIGHTS];
-    Mat4x4f                              m_LightProjection[MAX_NUM_LIGHTS];
+    Vec3f                               m_Translation = Vec3f(0);
+    Vec3f                               m_Scales      = Vec3f(1.0);
+    SharedPtr<ShaderProgram>            m_LightDepthShader;
+    SharedPtr<ShaderProgram>            m_CameraDepthShader;
+    StdVT<UniquePtr<DepthBufferRender>> m_LightDepthBufferRenders;
+    UniquePtr<DepthBufferRender>        m_CameraDepthBufferRender;
+    Mat4x4f                             m_LightView[MAX_NUM_LIGHTS];
+    Mat4x4f                             m_LightProjection[MAX_NUM_LIGHTS];
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

@@ -37,14 +37,14 @@ void SkyBoxRender::loadTextures(QString textureTopFolder)
     QDir dataDir(textureTopFolder);
     dataDir.setFilter(QDir::NoDotAndDotDot | QDir::Dirs);
 
-    QStringList    allTexFolders = dataDir.entryList();
-    Vector<QImage> textureImages;
+    QStringList   allTexFolders = dataDir.entryList();
+    StdVT<QImage> textureImages;
     textureImages.resize(allTexFolders.count() * 6);
 
-    Vector<int> loadSuccess;
+    StdVT<int> loadSuccess;
     loadSuccess.assign(allTexFolders.count(), 0);
 
-    Vector<std::future<void>> futureObjs;
+    StdVT<std::future<void>> futureObjs;
 
     for(int i = 0; i < allTexFolders.count(); ++i) {
         QString texFolderPath = textureTopFolder + "/" + allTexFolders[i];
@@ -848,7 +848,7 @@ void MeshRender::setRenderTextureIndex(int texIndex)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::setExternalShadowMaps(const Vector<SharedPtr<OpenGLTexture>>& shadowMaps)
+void MeshRender::setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps)
 {
     assert(shadowMaps.size() == static_cast<size_t>(m_Lights->getNumLights()));
     m_ExternalShadowMaps = shadowMaps;
@@ -1112,9 +1112,9 @@ SharedPtr<OpenGLTexture>& MeshRender::getLightShadowMap(int lightID /*= 0*/)
     return m_LightDepthBufferRenders[lightID]->getDepthBuffer();
 }
 
-Vector<SharedPtr<OpenGLTexture>> MeshRender::getAllLightShadowMaps()
+StdVT<SharedPtr<OpenGLTexture>> MeshRender::getAllLightShadowMaps()
 {
-    Vector<SharedPtr<OpenGLTexture>> depthBuffers;
+    StdVT<SharedPtr<OpenGLTexture>> depthBuffers;
     for(int i = 0; i < static_cast<int>(m_LightDepthBufferRenders.size()); ++i) {
         depthBuffers.push_back(m_LightDepthBufferRenders[i]->getDepthBuffer());
     }

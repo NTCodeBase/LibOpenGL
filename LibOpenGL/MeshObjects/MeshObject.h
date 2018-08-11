@@ -35,31 +35,31 @@ public:
     void scale(const Vec3f& scale);
     void rotate(const Vec3f& rotation);
 
-    void setVertices(const Vector<Vec3f>& vertices);
-    void setVertices(const Vector<GLfloat>& vertices);
+    void setVertices(const StdVT<Vec3f>& vertices);
+    void setVertices(const StdVT<GLfloat>& vertices);
     void setVertices(void* vertexData, size_t dataSize);
 
-    void setVertexNormal(const Vector<Vec3f>& normals);
-    void setVertexNormal(const Vector<GLfloat>& normals);
+    void setVertexNormal(const StdVT<Vec3f>& normals);
+    void setVertexNormal(const StdVT<GLfloat>& normals);
     void setVertexNormal(void* normalData, size_t dataSize);
     void inverseVertexNormal();
     void clearVertexNormal();
 
-    void setVertexTexCoord(const Vector<Vec2f>& texcoords);
-    void setVertexTexCoord(const Vector<GLfloat>& texcoords);
+    void setVertexTexCoord(const StdVT<Vec2f>& texcoords);
+    void setVertexTexCoord(const StdVT<GLfloat>& texcoords);
     void setVertexTexCoord(void* texData, size_t dataSize);
     void scaleVertexTexCoord(GLfloat scaleX, GLfloat scaleY);
     void clearVertexTexCoord();
 
-    void setVertexColor(const Vector<Vec3f>& vcolors);
-    void setVertexColor(const Vector<GLfloat>& vcolors);
+    void setVertexColor(const StdVT<Vec3f>& vcolors);
+    void setVertexColor(const StdVT<GLfloat>& vcolors);
     void setVertexColor(void* colorData, size_t dataSize);
     void generateRandomVertexColor();
     void clearVertexColor();
 
-    void setElementIndex(const Vector<GLushort>& indices);
+    void setElementIndex(const StdVT<GLushort>& indices);
     void clearElementIndex();
-    void setElementIndex(const Vector<GLuint>& indices);
+    void setElementIndex(const StdVT<GLuint>& indices);
     void clearElementIndexLong();
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -100,13 +100,13 @@ protected:
     SharedPtr<OpenGLBuffer> m_VertexColorBuffer = nullptr;
     SharedPtr<OpenGLBuffer> m_IndexBuffer       = nullptr;
 
-    Vector<GLushort> m_IndexList;
-    Vector<GLuint>   m_IndexListLong;
-    Vector<Vec3f>    m_Vertices;
-    Vector<Vec3f>    m_VerticesBackup;
-    Vector<Vec3f>    m_VertexNormals;
-    Vector<Vec2f>    m_VertexTexCoords;
-    Vector<Vec3f>    m_VertexColors;
+    StdVT<GLushort> m_IndexList;
+    StdVT<GLuint>   m_IndexListLong;
+    StdVT<Vec3f>    m_Vertices;
+    StdVT<Vec3f>    m_VerticesBackup;
+    StdVT<Vec3f>    m_VertexNormals;
+    StdVT<Vec2f>    m_VertexTexCoords;
+    StdVT<Vec3f>    m_VertexColors;
 
     size_t m_NVertices    = 0;
     GLenum m_DataTopology = GL_TRIANGLES;
