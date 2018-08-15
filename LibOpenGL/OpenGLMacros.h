@@ -15,7 +15,7 @@
 #pragma once
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#include <CommonSetup.h>
+#include <LibCommon/CommonSetup.h>
 
 #if defined(QT_GUI_LIB) || defined(QT_CORE_LIB)
 #   include <LibQtApps/QtAppMacros.h>

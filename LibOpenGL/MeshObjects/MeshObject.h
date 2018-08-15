@@ -14,7 +14,7 @@
 
 #pragma once
 
-#include <CommonSetup.h>
+#include <LibCommon/CommonSetup.h>
 #include <LibOpenGL/OpenGLMacros.h>
 #include <LibOpenGL/OpenGLBuffer.h>
 
