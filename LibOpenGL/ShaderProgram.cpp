@@ -492,6 +492,7 @@ SharedPtr<ShaderProgram> ShaderProgram::getSimpleCameraSpaceDepthShader(String p
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "in vec3 v_Position;\n"
@@ -544,6 +545,7 @@ SharedPtr<ShaderProgram> ShaderProgram::getObjUniformColorShader(String programN
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "layout(location = 0) in vec3 v_Position;\n"
@@ -592,6 +594,7 @@ SharedPtr<ShaderProgram> ShaderProgram::getObjTextureShader(String programName)
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "layout(location = 0) in vec3 v_Position;\n"
@@ -672,6 +675,7 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getPhongShader(String pro
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "uniform int u_HasShadow;\n"
@@ -835,6 +839,7 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSkyBoxShader(String pr
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "layout(location = 0) in vec3 v_Position;\n"
@@ -1007,11 +1012,10 @@ layout(std140) uniform CameraData
     mat4 invProjectionMatrix;
     mat4 shadowMatrix;
     vec4 camPosition;
+    vec4 camFocus;
 };
 
 uniform float u_Width = 0.1f;
-uniform vec3  u_CameraFocus;
-
 const mat4 c_OrthogonalPrjMatrix = mat4(vec4(15.0f / 32.0f, 0, 0, 0),
                                         vec4(0, 5.0f / 6.0f, 0,     0),
                                         vec4(0,    0,        -0.01, 0),
@@ -1091,7 +1095,7 @@ void main()
         fColor = vec3(1.0, 0.0, 0.0);
     }
 
-    vec4 eyeCoord = viewMatrix * vec4(gizmo_data[gizmo_indices[gl_VertexID]] + u_CameraFocus, 1.0f);
+    vec4 eyeCoord = viewMatrix * vec4(gizmo_data[gizmo_indices[gl_VertexID]] + camFocus.xyz, 1.0f);
     gl_Position = c_OrthogonalPrjMatrix * eyeCoord;
 };
 

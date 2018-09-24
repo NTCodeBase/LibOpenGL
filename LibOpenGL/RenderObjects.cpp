@@ -49,8 +49,7 @@ void SkyBoxRender::loadTextures(QString textureTopFolder)
     for(int i = 0; i < allTexFolders.count(); ++i) {
         QString texFolderPath = textureTopFolder + "/" + allTexFolders[i];
         futureObjs.emplace_back(std::async(std::launch::async,
-                                           [&, texFolderPath, i]()
-                                           {
+                                           [&, texFolderPath, i] {
                                                ////////////////////////////////////////////////////////////////////////////////
                                                // find the extension of texture imageg
                                                QString posXFilePath = texFolderPath + "/posx.jpg";
@@ -285,6 +284,7 @@ void PointLightRender::initRenderData()
         "    mat4 invProjectionMatrix;\n"
         "    mat4 shadowMatrix;\n"
         "    vec4 camPosition;\n"
+        "    vec4 camFocus;\n"
         "};\n"
         "\n"
         "#define NUM_TOTAL_LIGHTS 4\n"
