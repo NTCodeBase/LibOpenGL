@@ -74,7 +74,10 @@ public:
     void zoom(float _zooming);
     void zoom();
 
-    bool        isCameraChanged() { return m_bDirty; }
+    bool        isCameraChanged() const { return m_bDirty; }
+    bool        useInverseViewMatrix() const { return m_bUseInverseViewMatrix; }
+    bool        useInverseProjectionMatrix() const { return m_bUseInversePrjMatrix; }
+
     auto        getProjection() const { return m_Projection; }
     const auto& getFrustum() const { return m_Frustum; }
     Vec3f getOrthoBoxMin() const;
@@ -86,17 +89,21 @@ public:
     const auto& getViewMatrix() const { return m_ViewMatrix; }
     const auto& getProjectionMatrix() const { return m_ProjectionMatrix; }
     const auto& getViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
-    const auto& getInverseProjectionMatrix() const { return m_InverseProjectionMatrix; }
+
+    const auto& getInverseViewMatrix() const { assert(m_bUseInverseViewMatrix); return m_InverseViewMatrix; }
+    const auto& getInverseProjectionMatrix() const { assert(m_bUseInversePrjMatrix); return m_InverseProjectionMatrix; }
 
     auto getCameraDirection() const { return glm::normalize(m_CameraFocus - m_CameraPosition); }
-    auto getInverseViewMatrix() const { return glm::inverse(m_ViewMatrix); }
 
 private:
-    bool m_bDirty       = true;
-    bool m_bDebug       = false;
-    int  m_WindowWidth  = 0;
-    int  m_WindowHeight = 0;
-    bool m_bReset       = false;
+    bool m_bDirty = true;
+    bool m_bReset = false;
+    bool m_bDebug = false;
+    bool m_bUseInverseViewMatrix = false;
+    bool m_bUseInversePrjMatrix  = false;
+
+    int m_WindowWidth  = 0;
+    int m_WindowHeight = 0;
 
     Vec3f m_CameraPosition    = Vec3f(1, 0, 0);
     Vec3f m_CameraFocus       = Vec3f(0, 0, 0);
@@ -114,6 +121,7 @@ private:
     Vec3f   m_DefaultOrthoBoxMax = Vec3f(1.0f);
 
     Mat4x4f m_ViewMatrix;
+    Mat4x4f m_InverseViewMatrix;
     Mat4x4f m_ProjectionMatrix;
     Mat4x4f m_InverseProjectionMatrix;
     Mat4x4f m_ViewProjectionMatrix;

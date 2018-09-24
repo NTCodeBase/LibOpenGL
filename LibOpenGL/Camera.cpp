@@ -84,8 +84,10 @@ void Camera::updateProjectionMatrix()
                                             m_OrthoBoxMin.z, m_OrthoBoxMax.z); // left, right, bot, top, near, far
         }
     }
-    m_InverseProjectionMatrix = glm::inverse(m_ProjectionMatrix);
-    m_ViewProjectionMatrix    = m_ProjectionMatrix * m_ViewMatrix;
+    m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+    if(useInverseProjectionMatrix()) {
+        m_InverseProjectionMatrix = glm::inverse(m_ProjectionMatrix);
+    }
     setDirty(true);
 }
 
@@ -118,6 +120,9 @@ void Camera::updateCameraMatrices()
     if(m_bDirty) {
         m_ViewMatrix           = glm::lookAt(m_CameraPosition, m_CameraFocus, m_CameraUpDirection);
         m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+        if(useInverseViewMatrix()) {
+            m_InverseViewMatrix = glm::inverse(m_ViewMatrix);
+        }
 
         if(m_bDebug) {
             printf("CameraDebug::UpdateViewMatrix CameraPosition = [%f, %f, %f], CameraFocus = [%f, %f, %f]\n",
@@ -137,6 +142,9 @@ void Camera::reset()
 
     ////////////////////////////////////////////////////////////////////////////////
     m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraFocus, m_CameraUpDirection);
+    if(useInverseViewMatrix()) {
+        m_InverseViewMatrix = glm::inverse(m_ViewMatrix);
+    }
     if(m_Projection == OrthographicProjection) {
         m_OrthoBoxMin = m_DefaultOrthoBoxMin;
         m_OrthoBoxMax = m_DefaultOrthoBoxMax;
