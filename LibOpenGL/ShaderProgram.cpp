@@ -341,11 +341,10 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleVertexColorShade
         "void main()\n"
         "{ outColor = vec4(f_Color, 1.0f); }\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -373,11 +372,10 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleUniformColorShad
         "void main()\n"
         "{ outColor = vec4(f_Color, 1.0f); }\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -411,11 +409,10 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleTextureShader(St
         "    outColor = texture(u_TexSampler, f_TexCoord);\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -467,11 +464,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getSimpleLightSpaceDepthShader(String pr
         "    outDepth = f_LightDistance;\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -520,11 +516,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getSimpleCameraSpaceDepthShader(String p
         "    outDepth = f_CameraDistance;\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -569,11 +564,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getObjUniformColorShader(String programN
         "void main()\n"
         "{ outColor = vec4(f_Color, 1.0f); }\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -624,11 +618,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getObjTextureShader(String programName)
         "    outColor = texture(u_TexSampler, f_TexCoord);\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -814,11 +807,10 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getPhongShader(String pro
         "    outColor = vec4(u_Exposure * shadeColor, 1.0);\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -870,11 +862,10 @@ SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSkyBoxShader(String pr
 
         "}";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShader);
     shader->link();
-
     return shader;
 }
 
@@ -905,11 +896,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getScreenQuadShader(const char* fragment
         "    f_TexCoord = tex[gl_VertexID];\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromSource(fragmentShaderSource);
     shader->link();
-
     return shader;
 }
 
@@ -939,11 +929,10 @@ SharedPtr<ShaderProgram> ShaderProgram::getScreenQuadShaderFromFile(const char* 
         "    f_TexCoord = tex[gl_VertexID];\n"
         "}\n";
 
-    SharedPtr<ShaderProgram> shader = std::make_shared<ShaderProgram>(programName);
+    auto shader = std::make_shared<ShaderProgram>(programName);
     shader->addVertexShaderFromSource(vertexShader);
     shader->addFragmentShaderFromFile(fragmentShaderFile);
     shader->link();
-
     return shader;
 }
 
@@ -1002,4 +991,129 @@ SharedPtr<ShaderProgram> ShaderProgram::getGridBackgroundShader(String programNa
         "}";
 
     return getScreenQuadShader(fragmentShader, programName);
+}
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+SharedPtr<ShaderProgram> ShaderProgram::getGizmoShader(String programName)
+{
+    const GLchar* vertexShader = R"(
+// vertex shader, gizmo render
+#version 410 core
+layout(std140) uniform CameraData
+{
+    mat4 viewMatrix;
+    mat4 projectionMatrix;
+    mat4 invViewMatrix;
+    mat4 invProjectionMatrix;
+    mat4 shadowMatrix;
+    vec4 camPosition;
+};
+
+uniform float u_Width = 0.1f;
+uniform vec3  u_CameraFocus;
+
+const mat4 c_OrthogonalPrjMatrix = mat4(vec4(15.0f / 32.0f, 0, 0, 0),
+                                        vec4(0, 5.0f / 6.0f, 0,     0),
+                                        vec4(0,    0,        -0.01, 0),
+                                        vec4(0,    0,        0,     1));
+
+out vec3 fColor;
+
+////////////////////////////////////////////////////////////////////////////////
+void main()
+{
+    vec3 gizmo_data[] = vec3[] (
+        // Z
+        vec3(-u_Width / 2.0,            -u_Width / 2.0,        1.0),
+        vec3(u_Width / 2.0,             -u_Width / 2.0,        1.0),
+        vec3(-u_Width / 2.0,      u_Width / 2.0,               1.0),
+        vec3(u_Width / 2.0,       u_Width / 2.0,               1.0),
+
+        vec3(-u_Width / 2.0,            -u_Width / 2.0,        0.0 - u_Width / 2.0),
+        vec3(u_Width / 2.0,             -u_Width / 2.0,        0.0 - u_Width / 2.0),
+        vec3(-u_Width / 2.0,      u_Width / 2.0,               0.0 - u_Width / 2.0),
+        vec3(u_Width / 2.0,       u_Width / 2.0,               0.0 - u_Width / 2.0),
+
+        // Y
+        vec3(-u_Width / 2.0,          1.0,                       -u_Width / 2.0),
+        vec3(u_Width / 2.0,           1.0,                       -u_Width / 2.0),
+        vec3(-u_Width / 2.0,          1.0,                 u_Width / 2.0),
+        vec3(u_Width / 2.0,           1.0,                 u_Width / 2.0),
+
+        vec3(-u_Width / 2.0,          0.0 + u_Width / 2.0,       -u_Width / 2.0),
+        vec3(u_Width / 2.0,           0.0 + u_Width / 2.0,       -u_Width / 2.0),
+        vec3(-u_Width / 2.0,          0.0 + u_Width / 2.0, u_Width / 2.0),
+        vec3(u_Width / 2.0,           0.0 + u_Width / 2.0, u_Width / 2.0),
+
+        // X
+        vec3(1.0,                       -u_Width / 2.0,          -u_Width / 2.0),
+        vec3(1.0,                 u_Width / 2.0,                 -u_Width / 2.0),
+        vec3(1.0,                       -u_Width / 2.0,    u_Width / 2.0),
+        vec3(1.0,                 u_Width / 2.0,           u_Width / 2.0),
+
+        vec3(0.0 + u_Width / 2.0,       -u_Width / 2.0,          -u_Width / 2.0),
+        vec3(0.0 + u_Width / 2.0, u_Width / 2.0,                 -u_Width / 2.0),
+        vec3(0.0 + u_Width / 2.0,       -u_Width / 2.0,    u_Width / 2.0),
+        vec3(0.0 + u_Width / 2.0, u_Width / 2.0,           u_Width / 2.0)
+        );
+
+    int gizmo_indices[] = int[] (
+        // Z
+        0, 1, 2, 2, 1, 3,
+        4, 5, 6, 6, 5, 7,
+        0, 4, 1, 1, 4, 5,
+        1, 5, 3, 3, 5, 7,
+        3, 7, 2, 2, 7, 6,
+        2, 6, 0, 0, 6, 4,
+
+        // Y
+        0 + 8, 1 + 8, 2 + 8, 2 + 8, 1 + 8, 3 + 8,
+        4 + 8, 5 + 8, 6 + 8, 6 + 8, 5 + 8, 7 + 8,
+        0 + 8, 4 + 8, 1 + 8, 1 + 8, 4 + 8, 5 + 8,
+        1 + 8, 5 + 8, 3 + 8, 3 + 8, 5 + 8, 7 + 8,
+        3 + 8, 7 + 8, 2 + 8, 2 + 8, 7 + 8, 6 + 8,
+        2 + 8, 6 + 8, 0 + 8, 0 + 8, 6 + 8, 4 + 8,
+
+        // X
+        0 + 16, 1 + 16, 2 + 16, 2 + 16, 1 + 16, 3 + 16,
+        4 + 16, 5 + 16, 6 + 16, 6 + 16, 5 + 16, 7 + 16,
+        0 + 16, 4 + 16, 1 + 16, 1 + 16, 4 + 16, 5 + 16,
+        1 + 16, 5 + 16, 3 + 16, 3 + 16, 5 + 16, 7 + 16,
+        3 + 16, 7 + 16, 2 + 16, 2 + 16, 7 + 16, 6 + 16,
+        2 + 16, 6 + 16, 0 + 16, 0 + 16, 6 + 16, 4 + 16
+        );
+
+    if(gl_VertexID < 36) {
+        fColor = vec3(0.0, 0.0, 1.0);
+    } else if(gl_VertexID < 2 * 36) {
+        fColor = vec3(0.0, 1.0, 0.0);
+    } else if(gl_VertexID < 3 * 36) {
+        fColor = vec3(1.0, 0.0, 0.0);
+    }
+
+    vec4 eyeCoord = viewMatrix * vec4(gizmo_data[gizmo_indices[gl_VertexID]] + u_CameraFocus, 1.0f);
+    gl_Position = c_OrthogonalPrjMatrix * eyeCoord;
+};
+
+)";
+
+    const GLchar* fragmentShader = R"(
+// fragment shader, gizmo render
+#version 410 core
+
+out vec4 outColor;
+in vec3  fColor;
+////////////////////////////////////////////////////////////////////////////////
+void main()
+{
+    outColor = vec4(fColor, 1);
+}
+
+)";
+
+    auto shader = std::make_shared<ShaderProgram>(programName);
+    shader->addVertexShaderFromSource(vertexShader);
+    shader->addFragmentShaderFromSource(fragmentShader);
+    shader->link();
+    return shader;
 }
