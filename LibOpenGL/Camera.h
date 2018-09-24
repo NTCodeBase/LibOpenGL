@@ -96,7 +96,7 @@ private:
     bool m_bDebug       = false;
     int  m_WindowWidth  = 0;
     int  m_WindowHeight = 0;
-    bool m_bReseted     = false;
+    bool m_bReset       = false;
 
     Vec3f m_CameraPosition    = Vec3f(1, 0, 0);
     Vec3f m_CameraFocus       = Vec3f(0, 0, 0);

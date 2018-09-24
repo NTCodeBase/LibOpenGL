@@ -92,8 +92,8 @@ void Camera::updateProjectionMatrix()
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 void Camera::updateCameraMatrices()
 {
-    if(m_bReseted) {
-        m_bReseted = false;
+    if(m_bReset) {
+        m_bReset = false;
         setDirty(true);
         return;
     }
@@ -133,7 +133,7 @@ void Camera::reset()
     m_CameraPosition    = m_DefaultCameraPosition;
     m_CameraFocus       = m_DefaultCameraFocus;
     m_CameraUpDirection = m_DefaultUpDirection;
-    m_bReseted          = true;
+    m_bReset = true;
 
     ////////////////////////////////////////////////////////////////////////////////
     m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraFocus, m_CameraUpDirection);
