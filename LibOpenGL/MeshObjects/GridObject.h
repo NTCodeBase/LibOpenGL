@@ -16,16 +16,15 @@
 #include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class GridObject : public MeshObject
-{
+namespace MeshObjects {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+class GridObject : public MeshObject {
 public:
-    GridObject(int sizeX = 1, int sizeY = 1, float scaleTexX = 1.0f, float scaleTexY = 1.0f) : m_SizeX(0), m_SizeY(0)
-    {
+    GridObject(int sizeX = 1, int sizeY = 1, float scaleTexX = 1.0f, float scaleTexY = 1.0f) : m_SizeX(0), m_SizeY(0) {
         generateGrid(sizeX, sizeY, scaleTexX, scaleTexY);
     }
 
-    void generateGrid(int sizeX, int sizeY, float scaleTexX = 1.0f, float scaleTexY = 1.0f)
-    {
+    void generateGrid(int sizeX, int sizeY, float scaleTexX = 1.0f, float scaleTexY = 1.0f) {
         clearData();
 
         Vec3f vertex;
@@ -76,8 +75,7 @@ public:
         m_SizeY = sizeY;
     }
 
-    void scaleTexCoord(int scaleTexX, int scaleTexY)
-    {
+    void scaleTexCoord(int scaleTexX, int scaleTexY) {
         m_VertexTexCoords.resize(0);
         GLfloat texStepX = 2.0f / static_cast<GLfloat>(m_SizeX) * static_cast<GLfloat>(scaleTexX);
         GLfloat texStepY = 2.0f / static_cast<GLfloat>(m_SizeX) * static_cast<GLfloat>(scaleTexY);
@@ -93,3 +91,5 @@ private:
     int m_SizeX;
     int m_SizeY;
 };
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace MeshObjects

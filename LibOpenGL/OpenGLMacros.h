@@ -25,8 +25,7 @@
 #endif
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-inline String GLErr2Str(GLenum err)
-{
+inline String GLErr2Str(GLenum err) {
     switch(err) {
         case GL_NO_ERROR:
             return String("No error.");
@@ -94,19 +93,15 @@ inline String GLErr2Str(GLenum err)
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // Abstract base class for all classes that call opengl functions
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
 #ifdef __NT_QT__
-class OpenGLCallable : public OpenGLFunctions
-{
+class OpenGLCallable : public OpenGLFunctions {
 protected:
-    OpenGLCallable()
-    {
+    OpenGLCallable() {
         initializeOpenGLFunctions();
     }
 };
 #else
-class OpenGLCallable
-{
+class OpenGLCallable {
 protected:
     OpenGLCallable() {}
 };

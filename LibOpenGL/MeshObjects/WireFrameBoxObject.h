@@ -13,18 +13,17 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #pragma once
-
-#include <array>
 #include <LibOpenGL/MeshObjects/MeshObject.h>
+#include <array>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class WireFrameBoxObject : public MeshObject
-{
+namespace MeshObjects {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+class WireFrameBoxObject : public MeshObject {
 public:
     WireFrameBoxObject() { generateBox(); }
 
-    void generateBox()
-    {
+    void generateBox() {
         clearData();
 
         m_Vertices = {
@@ -65,8 +64,7 @@ public:
         m_DataTopology   = GL_LINES;
     }
 
-    void setBox(const Vec3f& boxMin, const Vec3f& boxMax)
-    {
+    void setBox(const Vec3f& boxMin, const Vec3f& boxMax) {
         m_Vertices = {
             // top
             Vec3f(boxMin[0], boxMax[1], boxMax[2]),
@@ -81,3 +79,6 @@ public:
         };
     }
 };
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace MeshObjects

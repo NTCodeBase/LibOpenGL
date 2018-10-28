@@ -18,15 +18,15 @@
 #include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-MeshObject::~MeshObject()
-{
+namespace MeshObjects {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+MeshObject::~MeshObject() {
     clearData();
     clearBuffer();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::transform(const Vec3f& translation, const Vec3f& scale)
-{
+void MeshObject::transform(const Vec3f& translation, const Vec3f& scale) {
     m_Translation  = translation;
     m_Scale        = scale;
     m_bTranslation = true;
@@ -38,8 +38,7 @@ void MeshObject::transform(const Vec3f& translation, const Vec3f& scale)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::transform(const Vec3f& translation, const Vec3f& scale, const Vec3f& rotation)
-{
+void MeshObject::transform(const Vec3f& translation, const Vec3f& scale, const Vec3f& rotation) {
     m_Translation  = translation;
     m_Scale        = scale;
     m_Rotation     = rotation;
@@ -53,8 +52,7 @@ void MeshObject::transform(const Vec3f& translation, const Vec3f& scale, const V
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::translate(const Vec3f& translation)
-{
+void MeshObject::translate(const Vec3f& translation) {
     m_Translation  = translation;
     m_bTranslation = true;
     ////////////////////////////////////////////////////////////////////////////////
@@ -64,8 +62,7 @@ void MeshObject::translate(const Vec3f& translation)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::scale(const Vec3f& scale)
-{
+void MeshObject::scale(const Vec3f& scale) {
     m_Scale  = scale;
     m_bScale = true;
     ////////////////////////////////////////////////////////////////////////////////
@@ -75,8 +72,7 @@ void MeshObject::scale(const Vec3f& scale)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::rotate(const Vec3f& rotation)
-{
+void MeshObject::rotate(const Vec3f& rotation) {
     m_Rotation = rotation;
     m_bRotate  = true;
     ////////////////////////////////////////////////////////////////////////////////
@@ -86,19 +82,16 @@ void MeshObject::rotate(const Vec3f& rotation)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertices(const StdVT<Vec3f>& vertices)
-{
+void MeshObject::setVertices(const StdVT<Vec3f>& vertices) {
     setVertices((void*)vertices.data(), vertices.size() * sizeof(Vec3f));
 }
 
-void MeshObject::setVertices(const StdVT<GLfloat>& vertices)
-{
+void MeshObject::setVertices(const StdVT<GLfloat>& vertices) {
     setVertices((void*)vertices.data(), vertices.size() * sizeof(GLfloat));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertices(void* vertexData, size_t dataSize)
-{
+void MeshObject::setVertices(void* vertexData, size_t dataSize) {
     m_NVertices = dataSize / 3 / sizeof(GLfloat);
     __NT_REQUIRE(m_NVertices * 3 * sizeof(GLfloat) == dataSize);
     m_Vertices.resize(m_NVertices);
@@ -116,19 +109,16 @@ void MeshObject::setVertices(void* vertexData, size_t dataSize)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexNormal(const StdVT<Vec3f>& normals)
-{
+void MeshObject::setVertexNormal(const StdVT<Vec3f>& normals) {
     setVertexNormal((void*)normals.data(), normals.size() * sizeof(Vec3f));
 }
 
-void MeshObject::setVertexNormal(const StdVT<GLfloat>& normals)
-{
+void MeshObject::setVertexNormal(const StdVT<GLfloat>& normals) {
     setVertexNormal((void*)normals.data(), normals.size() * sizeof(GLfloat));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexNormal(void* normalData, size_t dataSize)
-{
+void MeshObject::setVertexNormal(void* normalData, size_t dataSize) {
     assert(dataSize == m_NVertices * 3 * sizeof(GLfloat));
     m_hasVertexNormal = true;
 
@@ -137,8 +127,7 @@ void MeshObject::setVertexNormal(void* normalData, size_t dataSize)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::inverseVertexNormal()
-{
+void MeshObject::inverseVertexNormal() {
     if(!m_hasVertexNormal) {
         return;
     }
@@ -146,26 +135,22 @@ void MeshObject::inverseVertexNormal()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearVertexNormal()
-{
+void MeshObject::clearVertexNormal() {
     m_VertexNormals.resize(0);
     m_hasVertexNormal = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexTexCoord(const StdVT<Vec2f>& texcoords)
-{
+void MeshObject::setVertexTexCoord(const StdVT<Vec2f>& texcoords) {
     setVertexTexCoord((void*)texcoords.data(), texcoords.size() * sizeof(Vec2f));
 }
 
-void MeshObject::setVertexTexCoord(const StdVT<GLfloat>& texcoords)
-{
+void MeshObject::setVertexTexCoord(const StdVT<GLfloat>& texcoords) {
     setVertexTexCoord((void*)texcoords.data(), texcoords.size() * sizeof(GLfloat));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexTexCoord(void* texData, size_t dataSize)
-{
+void MeshObject::setVertexTexCoord(void* texData, size_t dataSize) {
     assert(dataSize == m_NVertices * 2 * sizeof(GLfloat));
     m_hasVertexTexCoord = true;
 
@@ -174,8 +159,7 @@ void MeshObject::setVertexTexCoord(void* texData, size_t dataSize)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::scaleVertexTexCoord(GLfloat scaleX, GLfloat scaleY)
-{
+void MeshObject::scaleVertexTexCoord(GLfloat scaleX, GLfloat scaleY) {
     if(!m_hasVertexTexCoord) {
         return;
     }
@@ -183,26 +167,22 @@ void MeshObject::scaleVertexTexCoord(GLfloat scaleX, GLfloat scaleY)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearVertexTexCoord()
-{
+void MeshObject::clearVertexTexCoord() {
     m_VertexTexCoords.resize(0);
     m_hasVertexTexCoord = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexColor(const StdVT<Vec3f>& vcolors)
-{
+void MeshObject::setVertexColor(const StdVT<Vec3f>& vcolors) {
     setVertexColor((void*)vcolors.data(), vcolors.size() * sizeof(Vec3f));
 }
 
-void MeshObject::setVertexColor(const StdVT<GLfloat>& vcolors)
-{
+void MeshObject::setVertexColor(const StdVT<GLfloat>& vcolors) {
     setVertexColor((void*)vcolors.data(), vcolors.size() * sizeof(GLfloat));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setVertexColor(void* colorData, size_t dataSize)
-{
+void MeshObject::setVertexColor(void* colorData, size_t dataSize) {
     assert(dataSize == m_NVertices * 3 * sizeof(GLfloat));
     m_hasVertexColor = true;
 
@@ -211,8 +191,7 @@ void MeshObject::setVertexColor(void* colorData, size_t dataSize)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::generateRandomVertexColor()
-{
+void MeshObject::generateRandomVertexColor() {
     if(!m_isDataReady) {
         return;
     }
@@ -227,22 +206,19 @@ void MeshObject::generateRandomVertexColor()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearVertexColor()
-{
+void MeshObject::clearVertexColor() {
     m_VertexColors.resize(0);
     m_hasVertexColor = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearElementIndex()
-{
+void MeshObject::clearElementIndex() {
     m_IndexList.resize(0);
     m_hasIndexBuffer = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setElementIndex(const StdVT<GLuint>& indices)
-{
+void MeshObject::setElementIndex(const StdVT<GLuint>& indices) {
     m_isMeshVeryLarge = true;
     m_hasIndexBuffer  = true;
 
@@ -251,15 +227,13 @@ void MeshObject::setElementIndex(const StdVT<GLuint>& indices)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearElementIndexLong()
-{
+void MeshObject::clearElementIndexLong() {
     m_IndexListLong.resize(0);
     m_hasIndexBuffer = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::draw()
-{
+void MeshObject::draw() {
     if(!m_isDataReady) {
         return;
     }
@@ -288,8 +262,7 @@ void MeshObject::draw()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::uploadDataToGPU()
-{
+void MeshObject::uploadDataToGPU() {
     if(!m_isDataReady) {
         return;
     }
@@ -330,8 +303,7 @@ void MeshObject::uploadDataToGPU()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearData()
-{
+void MeshObject::clearData() {
     m_Vertices.resize(0);
     clearVertexNormal();
     clearVertexTexCoord();
@@ -350,8 +322,7 @@ void MeshObject::clearData()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::createBuffers()
-{
+void MeshObject::createBuffers() {
     if(!m_isDataReady) {
         return;
     }
@@ -389,8 +360,7 @@ void MeshObject::createBuffers()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearBuffer()
-{
+void MeshObject::clearBuffer() {
     m_VertexBuffer->deleteBuffer();
     if(m_NormalBuffer != nullptr) { m_NormalBuffer->deleteBuffer(); }
     if(m_VertexColorBuffer != nullptr) { m_VertexColorBuffer->deleteBuffer(); }
@@ -401,11 +371,13 @@ void MeshObject::clearBuffer()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::setElementIndex(const StdVT<GLushort>& indices)
-{
+void MeshObject::setElementIndex(const StdVT<GLushort>& indices) {
     m_isMeshVeryLarge = false;
     m_hasIndexBuffer  = true;
 
     m_IndexList.resize(indices.size());
     std::copy(indices.begin(), indices.end(), m_IndexList.begin());
 }
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace MeshObjects

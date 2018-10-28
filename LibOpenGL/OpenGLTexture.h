@@ -13,12 +13,10 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #pragma once
-
 #include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class OpenGLTexture : public OpenGLCallable
-{
+class OpenGLTexture : public OpenGLCallable {
 public:
     OpenGLTexture() : m_bTextureCreated(false), m_BindedTexUnit(0), m_TexureTarget(GL_TEXTURE_2D) {}
     OpenGLTexture(GLenum textureTarget) : m_bTextureCreated(false), m_BindedTexUnit(0), m_TexureTarget(GL_TEXTURE_2D) { createTexture(textureTarget); }
@@ -40,14 +38,12 @@ public:
     void release();
 
 #ifdef __NT_QT__
-    static void        loadTextures(std::vector<SharedPtr<OpenGLTexture>>& textures, QString textureFolder, bool insertNullTex = true, bool bGenMipMap = true);
-    static QStringList getTextureFolders(QString texType, QString texRootFolder                                                = QString("Textures"));
-    static QStringList getTextureFiles(QString texType, QString texRootFolder                                                  = QString("Textures"));
-#endif
+    static void        loadTextures(StdVT<SharedPtr<OpenGLTexture>>& textures, QString textureFolder, bool insertNullTex = true, bool bGenMipMap = true);
+    static QStringList getTextureFolders(QString texType, QString texRootFolder = QString("Textures"));
+    static QStringList getTextureFiles(QString texType, QString texRootFolder   = QString("Textures"));
+#endif // __NT_QT__
 
 private:
-
-    ////////////////////////////////////////////////////////////////////////////////
     GLenum m_TexureTarget;
     GLuint m_TextureID;
     GLuint m_BindedTexUnit;

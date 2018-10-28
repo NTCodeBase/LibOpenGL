@@ -19,8 +19,9 @@
 #include <LibOpenGL/OpenGLBuffer.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class MeshObject : public OpenGLCallable
-{
+namespace MeshObjects {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+class MeshObject : public OpenGLCallable {
 public:
     MeshObject(GLenum dataTopology = GL_TRIANGLES, bool isMeshVeryLarge = false) : m_DataTopology(dataTopology), m_isMeshVeryLarge(isMeshVeryLarge) {}
     virtual ~MeshObject();
@@ -129,3 +130,6 @@ protected:
     Vec3f m_Scale       = Vec3f(1);
     Vec3f m_Rotation    = Vec3f(0);
 };
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace MeshObjects

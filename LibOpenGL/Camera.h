@@ -13,28 +13,23 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #pragma once
-
 #include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class Camera
-{
-    struct Frustum
-    {
+class Camera {
+    struct Frustum {
         float m_Fov, m_Near, m_Far;
         Frustum(float fov = 45.0f, float nearZ = 0.1f, float farZ = 1000.0f) : m_Fov(fov), m_Near(nearZ), m_Far(farZ) {}
     };
 
 public:
-    enum Projection
-    {
+    enum Projection {
         PerspectiveProjection,
         OrthographicProjection
     };
 
     Camera() = default;
-    Camera(const Vec3f& defaultPosition, const Vec3f& defaultCameraFocus, const Vec3f& defaultUpDirection)
-    {
+    Camera(const Vec3f& defaultPosition, const Vec3f& defaultCameraFocus, const Vec3f& defaultUpDirection) {
         setCamera(defaultPosition, defaultCameraFocus, defaultUpDirection);
     }
 

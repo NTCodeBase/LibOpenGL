@@ -15,29 +15,25 @@
 #include <LibOpenGL/ShaderProgram.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addVertexShaderFromSource(const GLchar* shaderSource)
-{
+void ShaderProgram::addVertexShaderFromSource(const GLchar* shaderSource) {
     addShader(GL_VERTEX_SHADER, shaderSource);
     m_ShaderSourceCodes[GL_VERTEX_SHADER] = String(shaderSource);
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addGeometryShaderFromSource(const GLchar* shaderSource)
-{
+void ShaderProgram::addGeometryShaderFromSource(const GLchar* shaderSource) {
     addShader(GL_GEOMETRY_SHADER, shaderSource);
     m_ShaderSourceCodes[GL_GEOMETRY_SHADER] = String(shaderSource);
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addFragmentShaderFromSource(const GLchar* shaderSource)
-{
+void ShaderProgram::addFragmentShaderFromSource(const GLchar* shaderSource) {
     addShader(GL_FRAGMENT_SHADER, shaderSource);
     m_ShaderSourceCodes[GL_FRAGMENT_SHADER] = String(shaderSource);
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addVertexShaderFromFile(const char* fileName)
-{
+void ShaderProgram::addVertexShaderFromFile(const char* fileName) {
     String shaderSource;
     loadFile(shaderSource, fileName);
 
@@ -46,8 +42,7 @@ void ShaderProgram::addVertexShaderFromFile(const char* fileName)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addGeometryShaderFromFile(const char* fileName)
-{
+void ShaderProgram::addGeometryShaderFromFile(const char* fileName) {
     String shaderSource;
     loadFile(shaderSource, fileName);
 
@@ -56,8 +51,7 @@ void ShaderProgram::addGeometryShaderFromFile(const char* fileName)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::addFragmentShaderFromFile(const char* fileName)
-{
+void ShaderProgram::addFragmentShaderFromFile(const char* fileName) {
     String shaderSource;
     loadFile(shaderSource, fileName);
 
@@ -66,8 +60,7 @@ void ShaderProgram::addFragmentShaderFromFile(const char* fileName)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-bool ShaderProgram::link()
-{
+bool ShaderProgram::link() {
     GLuint newProgramID = glCall(glCreateProgram());
 
     for(GLuint shader : m_ShaderIDs) {
@@ -95,8 +88,7 @@ bool ShaderProgram::link()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-bool ShaderProgram::reloadShaders()
-{
+bool ShaderProgram::reloadShaders() {
     bool result = true;
     for(auto it = m_ShaderSourceFiles.begin(); it != m_ShaderSourceFiles.end(); ++it) {
         String shaderSouce;
@@ -112,16 +104,14 @@ bool ShaderProgram::reloadShaders()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::clearCachedSource()
-{
+void ShaderProgram::clearCachedSource() {
     m_ShaderSourceCodes.clear();
     m_ShaderSourceFiles.clear();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 GLuint ShaderProgram::getAtributeLocation(const char* atributeName,
-                                          bool        dieOnError /* = true*/)
-{
+                                          bool        dieOnError /* = true*/) {
     GLint location = glCall(glGetAttribLocation(m_ProgramID, atributeName));
 
     if(location < 0 && dieOnError) {
@@ -137,8 +127,7 @@ GLuint ShaderProgram::getAtributeLocation(const char* atributeName,
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 GLuint ShaderProgram::getUniformLocation(const char* uniformName,
-                                         bool        dieOnError /* = true*/)
-{
+                                         bool        dieOnError /* = true*/) {
     GLint location = glCall(glGetUniformLocation(m_ProgramID, uniformName));
 
     if(location < 0 && dieOnError) {
@@ -153,8 +142,7 @@ GLuint ShaderProgram::getUniformLocation(const char* uniformName,
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-GLuint ShaderProgram::getUniformBlockIndex(const char* uniformBlockName, bool dieOnError /*= true*/)
-{
+GLuint ShaderProgram::getUniformBlockIndex(const char* uniformBlockName, bool dieOnError /*= true*/) {
     GLuint location = glCall(glGetUniformBlockIndex(m_ProgramID, uniformBlockName));
 
     if(location == GL_INVALID_INDEX && dieOnError) {
@@ -169,14 +157,12 @@ GLuint ShaderProgram::getUniformBlockIndex(const char* uniformBlockName, bool di
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::ShaderProgram::bindUniformBlock(GLuint blockIndex, GLuint bindingPoint)
-{
+void ShaderProgram::ShaderProgram::bindUniformBlock(GLuint blockIndex, GLuint bindingPoint) {
     glCall(glUniformBlockBinding(m_ProgramID, blockIndex, bindingPoint));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::setUniformValue(GLint location, const Mat4x4f& mat)
-{
+void ShaderProgram::setUniformValue(GLint location, const Mat4x4f& mat) {
     glCall(glUniformMatrix4fv(location,
                               1 /*only setting 1 matrix*/,
                               false /*transpose?*/,
@@ -184,8 +170,7 @@ void ShaderProgram::setUniformValue(GLint location, const Mat4x4f& mat)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::setUniformValue(GLint location, const GLfloat* data, GLuint count)
-{
+void ShaderProgram::setUniformValue(GLint location, const GLfloat* data, GLuint count) {
     switch(count) {
         case 1u:
             glCall(glUniform1f(location, data[0]));
@@ -205,8 +190,7 @@ void ShaderProgram::setUniformValue(GLint location, const GLfloat* data, GLuint 
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::setUniformValue(GLint location, const GLint* data, GLuint count)
-{
+void ShaderProgram::setUniformValue(GLint location, const GLint* data, GLuint count) {
     switch(count) {
         case 1u:
             glCall(glUniform1i(location, data[0]));
@@ -226,8 +210,7 @@ void ShaderProgram::setUniformValue(GLint location, const GLint* data, GLuint co
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-bool ShaderProgram::addShader(GLenum shaderType, const GLchar* shaderSource)
-{
+bool ShaderProgram::addShader(GLenum shaderType, const GLchar* shaderSource) {
     GLuint shader = glCall(glCreateShader(shaderType));
     glCall(glShaderSource(shader, 1, &shaderSource, NULL));
     glCall(glCompileShader(shader));
@@ -242,8 +225,7 @@ bool ShaderProgram::addShader(GLenum shaderType, const GLchar* shaderSource)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-bool ShaderProgram::checkCompileError(GLuint shader, GLenum shaderType)
-{
+bool ShaderProgram::checkCompileError(GLuint shader, GLenum shaderType) {
     GLint  success;
     GLchar infoLog[1024];
 
@@ -275,8 +257,7 @@ bool ShaderProgram::checkCompileError(GLuint shader, GLenum shaderType)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-bool ShaderProgram::checkLinkError(GLuint program)
-{
+bool ShaderProgram::checkLinkError(GLuint program) {
     GLint  success;
     GLchar infoLog[1024];
     glCall(glGetProgramiv(program, GL_LINK_STATUS, &success));
@@ -294,8 +275,7 @@ bool ShaderProgram::checkLinkError(GLuint program)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ShaderProgram::loadFile(String& fileContent, const char* fileName)
-{
+void ShaderProgram::loadFile(String& fileContent, const char* fileName) {
     std::ifstream file(fileName);
     if(!file.is_open()) {
 #ifdef __NT_QT__
@@ -315,8 +295,7 @@ void ShaderProgram::loadFile(String& fileContent, const char* fileName)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleVertexColorShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleVertexColorShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -353,8 +332,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleUniformColorShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleUniformColorShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -388,8 +366,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleTextureShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSimpleTextureShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -427,8 +404,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getSimpleLightSpaceDepthShader(String programName /*= String("SimpleDepthShader")*/)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getSimpleLightSpaceDepthShader(String programName /*= String("SimpleDepthShader")*/) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -484,8 +460,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getSimpleCameraSpaceDepthShader(String programName /*= String("SimpleCameraSpaceDepthShader")*/)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getSimpleCameraSpaceDepthShader(String programName /*= String("SimpleCameraSpaceDepthShader")*/) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -539,8 +514,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getObjUniformColorShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getObjUniformColorShader(String programName) {
     const GLchar* vertexShader   = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -591,8 +565,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getObjTextureShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getObjTextureShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -648,8 +621,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getPhongShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getPhongShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -840,8 +812,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSkyBoxShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::ShaderProgram::getSkyBoxShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 #version 410 core
@@ -899,8 +870,7 @@ void main()
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 SharedPtr<ShaderProgram> ShaderProgram::getScreenQuadShader(const char* fragmentShaderSource,
-                                                            String      programName)
-{
+                                                            String      programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 // vertex shader, screen quad
@@ -932,8 +902,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getScreenQuadShaderFromFile(const char* fragmentShaderFile, String programName /*=String("ScreenQuadShader")*/)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getScreenQuadShaderFromFile(const char* fragmentShaderFile, String programName /*=String("ScreenQuadShader")*/) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 // vertex shader, screen quad
@@ -966,8 +935,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getCheckerboardBackgroundShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getCheckerboardBackgroundShader(String programName) {
     const GLchar* fragmentShader = R"(
 // This is the shader statically generated by ShaderProgram class
 // fragment shader, CheckerboardBackground
@@ -994,8 +962,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getGridBackgroundShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getGridBackgroundShader(String programName) {
     const GLchar* fragmentShader = R"(
 // This is the shader statically generated by ShaderProgram class
 // fragment shader, CheckerboardBackground
@@ -1023,8 +990,7 @@ void main()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<ShaderProgram> ShaderProgram::getGizmoShader(String programName)
-{
+SharedPtr<ShaderProgram> ShaderProgram::getGizmoShader(String programName) {
     const GLchar* vertexShader = R"(
 // This is the shader statically generated by ShaderProgram class
 // vertex shader, gizmo render

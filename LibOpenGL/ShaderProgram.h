@@ -24,13 +24,11 @@
 #include <memory>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class ShaderProgram : public OpenGLCallable
-{
+class ShaderProgram : public OpenGLCallable {
 public:
     ShaderProgram() : m_ProgramName("NoName"), m_isProgramLinked(false) {}
     ShaderProgram(const String& programName) : m_ProgramName(programName), m_isProgramLinked(false) {}
-    ShaderProgram(const char* vsFile, const char* fsFile, const char* programName) : m_ProgramName(programName), m_isProgramLinked(false)
-    {
+    ShaderProgram(const char* vsFile, const char* fsFile, const char* programName) : m_ProgramName(programName), m_isProgramLinked(false) {
         addVertexShaderFromFile(vsFile);
         addFragmentShaderFromFile(fsFile);
         link();
@@ -59,8 +57,7 @@ public:
     void   bindUniformBlock(GLuint blockIndex, GLuint bindingPoint);
 
     template<class T>
-    void setUniformValue(const char* uniformName, T value, bool dieOnError = true)
-    {
+    void setUniformValue(const char* uniformName, T value, bool dieOnError = true) {
         GLint location = getUniformLocation(uniformName, dieOnError);
         setUniformValue(location, value);
     }

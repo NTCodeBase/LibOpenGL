@@ -12,10 +12,18 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+#include <LibOpenGL/Camera.h>
+#include <LibOpenGL/Lights.h>
+#include <LibOpenGL/Material.h>
+#include <LibOpenGL/OpenGLBuffer.h>
+#include <LibOpenGL/OpenGLTexture.h>
+#include <LibOpenGL/ShaderProgram.h>
+#include <LibOpenGL/MeshObjects/CubeObject.h>
+#include <LibOpenGL/MeshObjects/GridObject.h>
+#include <LibOpenGL/MeshObjects/WireFrameBoxObject.h>
 #include <LibOpenGL/RenderObjects.h>
 
 #include <future>
-#include <vector>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -24,8 +32,7 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 #ifdef __NT_QT__
 #include <QDir>
-void SkyBoxRender::loadTextures(QString textureTopFolder)
-{
+void SkyBoxRender::loadTextures(QString textureTopFolder) {
     QStringList texFaces =
     {
         "/posx.", "/negx.",
@@ -114,16 +121,14 @@ void SkyBoxRender::loadTextures(QString textureTopFolder)
 #endif
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::clearTextures()
-{
+void SkyBoxRender::clearTextures() {
     m_Textures.resize(0);
     m_Textures.push_back(nullptr);
     m_CurrentTexture = nullptr;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::addTexture(const SharedPtr<OpenGLTexture>& texture)
-{
+void SkyBoxRender::addTexture(const SharedPtr<OpenGLTexture>& texture) {
     texture->setTextureParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
     texture->setTextureParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
     texture->setTextureParameter(GL_TEXTURE_WRAP_R, GL_REPEAT);
@@ -132,8 +137,7 @@ void SkyBoxRender::addTexture(const SharedPtr<OpenGLTexture>& texture)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::setRenderTextureIndex(int texIndex)
-{
+void SkyBoxRender::setRenderTextureIndex(int texIndex) {
     if(texIndex < 0) {
         return;
     }
@@ -144,28 +148,24 @@ void SkyBoxRender::setRenderTextureIndex(int texIndex)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::scale(float scaleX, float scaleY, float scaleZ)
-{
+void SkyBoxRender::scale(float scaleX, float scaleY, float scaleZ) {
     assert(m_CubeObj != nullptr);
     m_CubeObj->scale(Vec3f(scaleX, scaleY, scaleZ));
     m_CubeObj->uploadDataToGPU();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-const SharedPtr<OpenGLTexture>& SkyBoxRender::getCurrentTexture()
-{
+const SharedPtr<OpenGLTexture>& SkyBoxRender::getCurrentTexture() {
     return m_CurrentTexture;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-size_t SkyBoxRender::getNumTextures()
-{
+size_t SkyBoxRender::getNumTextures() {
     return m_Textures.size();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::render()
-{
+void SkyBoxRender::render() {
     assert(m_Camera != nullptr && m_UBufferCamData != nullptr);
     if(m_CurrentTexture == nullptr) {
         return;
@@ -194,8 +194,7 @@ void SkyBoxRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void SkyBoxRender::initRenderData()
-{
+void SkyBoxRender::initRenderData() {
     m_Shader = ShaderProgram::getSkyBoxShader();
 
     m_AtrVPosition = m_Shader->getAtributeLocation("v_Position");
@@ -206,7 +205,7 @@ void SkyBoxRender::initRenderData()
 
     ////////////////////////////////////////////////////////////////////////////////
     // cube object
-    m_CubeObj = std::make_unique<CubeObject>();
+    m_CubeObj = std::make_shared<MeshObjects::CubeObject>();
     m_CubeObj->uploadDataToGPU();
 
     glCall(glGenVertexArrays(1, &m_VAO));
@@ -240,14 +239,12 @@ void SkyBoxRender::initRenderData()
 // Light render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PointLightRender::setRenderSize(GLfloat renderSize)
-{
+void PointLightRender::setRenderSize(GLfloat renderSize) {
     m_RenderSize = renderSize;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PointLightRender::render()
-{
+void PointLightRender::render() {
     assert(m_Camera != nullptr && m_UBufferCamData != nullptr);
 
     m_UBufferCamData->uploadData(glm::value_ptr(m_Camera->getViewMatrix()),            0,          sizeof(Mat4x4f));
@@ -270,8 +267,7 @@ void PointLightRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PointLightRender::initRenderData()
-{
+void PointLightRender::initRenderData() {
     const GLchar* vertexShader =
         "// This is the shader statically generated by ShaderProgram class\n"
         "#version 410 core\n"
@@ -345,8 +341,7 @@ void PointLightRender::initRenderData()
 // WireFrameBoxRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void WireFrameBoxRender::transform(const Vec3f& translation, const Vec3f& scale)
-{
+void WireFrameBoxRender::transform(const Vec3f& translation, const Vec3f& scale) {
     Mat4x4f modelMatrix  = glm::scale(glm::translate(Mat4x4f(1.0), translation), scale);
     Mat4x4f normalMatrix = glm::transpose(glm::inverse(Mat3x3f(modelMatrix)));
 
@@ -355,15 +350,13 @@ void WireFrameBoxRender::transform(const Vec3f& translation, const Vec3f& scale)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void WireFrameBoxRender::setBox(const Vec3f& boxMin, const Vec3f& boxMax)
-{
+void WireFrameBoxRender::setBox(const Vec3f& boxMin, const Vec3f& boxMax) {
     m_WireFrameBoxObj->setBox(boxMin, boxMax);
     m_WireFrameBoxObj->uploadDataToGPU();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void WireFrameBoxRender::render()
-{
+void WireFrameBoxRender::render() {
     m_Shader->bind();
 
     m_UBufferModelMatrix->bindBufferBase();
@@ -387,8 +380,7 @@ void WireFrameBoxRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void WireFrameBoxRender::initRenderData()
-{
+void WireFrameBoxRender::initRenderData() {
     m_Shader = ShaderProgram::getObjUniformColorShader();
 
     m_AtrVPosition  = m_Shader->getAtributeLocation("v_Position");
@@ -396,7 +388,7 @@ void WireFrameBoxRender::initRenderData()
     m_UBModelMatrix = m_Shader->getUniformBlockIndex("ModelMatrix");
     m_UBCamData     = m_Shader->getUniformBlockIndex("CameraData");
 
-    m_WireFrameBoxObj = std::make_unique<WireFrameBoxObject> ();
+    m_WireFrameBoxObj = std::make_shared<MeshObjects::WireFrameBoxObject> ();
     m_WireFrameBoxObj->uploadDataToGPU();
 
     glCall(glGenVertexArrays(1, &m_VAO));
@@ -424,8 +416,7 @@ void WireFrameBoxRender::initRenderData()
 // OffScreenRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::resize(int width, int height)
-{
+void OffScreenRender::resize(int width, int height) {
     m_BufferWidth  = width;
     m_BufferHeight = height;
 
@@ -441,21 +432,18 @@ void OffScreenRender::resize(int width, int height)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::beginRender()
-{
+void OffScreenRender::beginRender() {
     glCall(glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID));
     glCall(glViewport(0, 0, m_BufferWidth, m_BufferHeight));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::endRender(GLuint defaultFBO /*= 0*/)
-{
+void OffScreenRender::endRender(GLuint defaultFBO /*= 0*/) {
     glCall(glBindFramebuffer(GL_FRAMEBUFFER, defaultFBO));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::setNumColorBuffers(int numColorBuffers)
-{
+void OffScreenRender::setNumColorBuffers(int numColorBuffers) {
     if(m_NumColorBuffers == numColorBuffers) {
         return;
     } else {
@@ -501,23 +489,20 @@ void OffScreenRender::setNumColorBuffers(int numColorBuffers)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::setColorBufferParameter(GLenum paramName, GLenum paramValue)
-{
+void OffScreenRender::setColorBufferParameter(GLenum paramName, GLenum paramValue) {
     for(SharedPtr<OpenGLTexture>& tex : m_ColorBuffers) {
         tex->setTextureParameter(paramName, paramValue);
     }
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<OpenGLTexture>& OffScreenRender::getColorBuffer(int colorBufferID /*= 0*/)
-{
+SharedPtr<OpenGLTexture>& OffScreenRender::getColorBuffer(int colorBufferID /*= 0*/) {
     assert(colorBufferID < m_NumColorBuffers);
     return m_ColorBuffers[colorBufferID];
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::swapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID)
-{
+void OffScreenRender::swapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID) {
     std::swap(colorBuffer, m_ColorBuffers[bufferID]);
 
     glCall(glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID));
@@ -535,15 +520,13 @@ void OffScreenRender::swapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::fastSwapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID)
-{
+void OffScreenRender::fastSwapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID) {
     std::swap(colorBuffer, m_ColorBuffers[bufferID]);
     glCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + bufferID, GL_TEXTURE_2D, m_ColorBuffers[bufferID]->getTextureID(), 0));
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OffScreenRender::initRenderData()
-{
+void OffScreenRender::initRenderData() {
     glCall(glGenFramebuffers(1, &m_FrameBufferID));
     glCall(glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferID));
 
@@ -588,8 +571,7 @@ void OffScreenRender::initRenderData()
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-void DepthBufferRender::beginRender()
-{
+void DepthBufferRender::beginRender() {
     OffScreenRender::beginRender();
 
     glCall(glClearColor(m_ClearLinearDepthValue, m_ClearLinearDepthValue, m_ClearLinearDepthValue, 1.0));
@@ -600,8 +582,7 @@ void DepthBufferRender::beginRender()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void DepthBufferRender::endRender(GLuint defaultFBO /* = 0 */)
-{
+void DepthBufferRender::endRender(GLuint defaultFBO /* = 0 */) {
     OffScreenRender::endRender(defaultFBO);
 
     glCall(glClearColor(m_DefaultClearColor[0], m_DefaultClearColor[1], m_DefaultClearColor[2], 1.0f));
@@ -609,8 +590,7 @@ void DepthBufferRender::endRender(GLuint defaultFBO /* = 0 */)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void DepthBufferRender::setNumColorBuffers(int numColorBuffers)
-{
+void DepthBufferRender::setNumColorBuffers(int numColorBuffers) {
     OffScreenRender::setNumColorBuffers(numColorBuffers);
 
     GLfloat borderColor[] = { m_ClearLinearDepthValue, m_ClearLinearDepthValue, m_ClearLinearDepthValue, 1.0 };
@@ -625,27 +605,23 @@ void DepthBufferRender::setNumColorBuffers(int numColorBuffers)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void DepthBufferRender::setDefaultClearColor(const Vec3f& clearColor)
-{
+void DepthBufferRender::setDefaultClearColor(const Vec3f& clearColor) {
     m_DefaultClearColor = clearColor;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void DepthBufferRender::setClearDepthValue(GLfloat clearValue)
-{
+void DepthBufferRender::setClearDepthValue(GLfloat clearValue) {
     m_ClearLinearDepthValue = clearValue;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<OpenGLTexture>& DepthBufferRender::getDepthBuffer()
-{
+SharedPtr<OpenGLTexture>& DepthBufferRender::getDepthBuffer() {
     assert(m_ColorBuffers.size() > 0);
     return m_ColorBuffers[0];
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void DepthBufferRender::initRenderData()
-{
+void DepthBufferRender::initRenderData() {
     OffScreenRender::initRenderData();
 
     GLfloat borderColor[] = { m_ClearLinearDepthValue, m_ClearLinearDepthValue, m_ClearLinearDepthValue, 1.0 };
@@ -664,8 +640,7 @@ void DepthBufferRender::initRenderData()
 // ScreenQuadTextureRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ScreenQuadTextureRender::render()
-{
+void ScreenQuadTextureRender::render() {
     assert(m_Texture != nullptr);
 
     m_Texture->bind();
@@ -682,8 +657,7 @@ void ScreenQuadTextureRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ScreenQuadTextureRender::initRenderData()
-{
+void ScreenQuadTextureRender::initRenderData() {
     const GLchar* fragmentShader =
         "// This is the shader statically generated by ShaderProgram class\n"
         "#version 410 core\n"
@@ -728,14 +702,12 @@ void ScreenQuadTextureRender::initRenderData()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ScreenQuadTextureRender::setValueScale(float scale)
-{
+void ScreenQuadTextureRender::setValueScale(float scale) {
     m_ValueScale = scale;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void ScreenQuadTextureRender::setTexture(const SharedPtr<OpenGLTexture>& texture, int texelSize /*= 1*/)
-{
+void ScreenQuadTextureRender::setTexture(const SharedPtr<OpenGLTexture>& texture, int texelSize /*= 1*/) {
     m_Texture        = texture;
     m_TexelSizeValue = texelSize;
 }
@@ -745,8 +717,7 @@ void ScreenQuadTextureRender::setTexture(const SharedPtr<OpenGLTexture>& texture
 // CheckerboardBackgroundRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void CheckerboardBackgroundRender::render()
-{
+void CheckerboardBackgroundRender::render() {
     m_Shader->bind();
     m_Shader->setUniformValue(m_UScales,             m_Scales);
     m_Shader->setUniformValue(m_UScreenWidth,   m_ScreenWidth);
@@ -763,8 +734,7 @@ void CheckerboardBackgroundRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void CheckerboardBackgroundRender::initRenderData()
-{
+void CheckerboardBackgroundRender::initRenderData() {
     m_Shader = ShaderProgram::getCheckerboardBackgroundShader();
 
     glCall(glGenVertexArrays(1, &m_VAO));
@@ -781,8 +751,7 @@ void CheckerboardBackgroundRender::initRenderData()
 // GridBackgroundRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void GridBackgroundRender::render()
-{
+void GridBackgroundRender::render() {
     m_Shader->bind();
     m_Shader->setUniformValue(m_UScales,                   m_Scales);
     m_Shader->setUniformValue(m_UScreenWidth,         m_ScreenWidth);
@@ -799,8 +768,7 @@ void GridBackgroundRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void GridBackgroundRender::initRenderData()
-{
+void GridBackgroundRender::initRenderData() {
     m_Shader = ShaderProgram::getGridBackgroundShader();
 
     glCall(glGenVertexArrays(1, &m_VAO));
@@ -817,8 +785,21 @@ void GridBackgroundRender::initRenderData()
 // Mesh render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::clearTextures(bool insertNullTex /*= true*/)
-{
+MeshRender::MeshRender(const SharedPtr<MeshObjects::MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
+                       QString textureFolder, const SharedPtr<Material>& material, const SharedPtr<OpenGLBuffer>& bufferCamData) :
+    RenderObject(camera, bufferCamData), m_MeshObj(meshObj), m_Lights(light), m_Material(material), m_CurrentTexture(nullptr),
+    m_ShadowBufferWidth(1024), m_ShadowBufferHeight(1024), m_Exposure(1.0f) {
+    initRenderData();
+    OpenGLTexture::loadTextures(m_Textures, textureFolder);
+}
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+void MeshRender::loadTextures(QString textureFolder) {
+    OpenGLTexture::loadTextures(m_Textures, textureFolder);
+}
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+void MeshRender::clearTextures(bool insertNullTex /*= true*/) {
     m_Textures.resize(0);
     if(insertNullTex) {
         m_Textures.push_back(nullptr);
@@ -828,8 +809,7 @@ void MeshRender::clearTextures(bool insertNullTex /*= true*/)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::addTexture(const SharedPtr<OpenGLTexture>& texture, GLenum texWrapMode /*= GL_REPEAT*/)
-{
+void MeshRender::addTexture(const SharedPtr<OpenGLTexture>& texture, GLenum texWrapMode /*= GL_REPEAT*/) {
     texture->setTextureParameter(GL_TEXTURE_WRAP_S, texWrapMode);
     texture->setTextureParameter(GL_TEXTURE_WRAP_T, texWrapMode);
     texture->setTextureParameter(GL_TEXTURE_WRAP_R, texWrapMode);
@@ -837,8 +817,7 @@ void MeshRender::addTexture(const SharedPtr<OpenGLTexture>& texture, GLenum texW
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::setRenderTextureIndex(int texIndex)
-{
+void MeshRender::setRenderTextureIndex(int texIndex) {
     if(texIndex < 0) {
         return;
     }
@@ -848,15 +827,13 @@ void MeshRender::setRenderTextureIndex(int texIndex)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps)
-{
+void MeshRender::setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps) {
     assert(shadowMaps.size() == static_cast<size_t>(m_Lights->getNumLights()));
     m_ExternalShadowMaps = shadowMaps;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::transform(const Vec3f& translation, const Vec3f& scales)
-{
+void MeshRender::transform(const Vec3f& translation, const Vec3f& scales) {
     Mat4x4f modelMatrix  = glm::scale(glm::translate(Mat4x4f(1.0), translation), scales);
     Mat4x4f normalMatrix = glm::transpose(glm::inverse(Mat3x3f(modelMatrix)));
 
@@ -865,8 +842,7 @@ void MeshRender::transform(const Vec3f& translation, const Vec3f& scales)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::render()
-{
+void MeshRender::render() {
     assert(m_MeshObj != nullptr && m_Camera != nullptr && m_UBufferCamData != nullptr);
     if(m_MeshObj->isEmpty()) {
         return;
@@ -931,8 +907,7 @@ void MeshRender::render()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::renderToLightDepthBuffer(int scrWidth, int scrHeight, GLuint defaultFBO /*= 0*/)
-{
+void MeshRender::renderToLightDepthBuffer(int scrWidth, int scrHeight, GLuint defaultFBO /*= 0*/) {
     assert(m_DepthBufferInitialized);
     assert(m_MeshObj != nullptr && m_Camera != nullptr && m_UBufferCamData != nullptr);
     assert(m_Lights != nullptr && m_Lights->getNumLights() > 0);
@@ -945,7 +920,7 @@ void MeshRender::renderToLightDepthBuffer(int scrWidth, int scrHeight, GLuint de
     ////////////////////////////////////////////////////////////////////////////////
     // update the depth render objs in case the number of lights has changed
     for(int i = static_cast<int>(m_LightDepthBufferRenders.size()); i < m_Lights->getNumLights(); ++i) {
-        m_LightDepthBufferRenders.push_back(std::make_unique<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight));
+        m_LightDepthBufferRenders.push_back(std::make_shared<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight));
     }
 
     m_LightDepthShader->bind();
@@ -971,8 +946,7 @@ void MeshRender::renderToLightDepthBuffer(int scrWidth, int scrHeight, GLuint de
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::renderToCameraDepthBuffer(int scrWidth, int scrHeight, GLuint defaultFBO /*= 0*/)
-{
+void MeshRender::renderToCameraDepthBuffer(int scrWidth, int scrHeight, GLuint defaultFBO /*= 0*/) {
     assert(m_DepthBufferInitialized);
     assert(m_MeshObj != nullptr && m_Camera != nullptr && m_UBufferCamData != nullptr);
     if(m_MeshObj->isEmpty()) {
@@ -996,8 +970,7 @@ void MeshRender::renderToCameraDepthBuffer(int scrWidth, int scrHeight, GLuint d
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::initDepthBufferData(const Vec3f& defaultClearColor)
-{
+void MeshRender::initDepthBufferData(const Vec3f& defaultClearColor) {
     if(m_MeshObj->isEmpty()) {
         return;
     }
@@ -1005,7 +978,7 @@ void MeshRender::initDepthBufferData(const Vec3f& defaultClearColor)
     ////////////////////////////////////////////////////////////////////////////////
     // light depth buffer
     for(int i = 0; i < m_Lights->getNumLights(); ++i) {
-        m_LightDepthBufferRenders.push_back(std::make_unique<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight));
+        m_LightDepthBufferRenders.push_back(std::make_shared<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight));
         m_LightDepthBufferRenders[i]->setDefaultClearColor(defaultClearColor);
         m_LightDepthBufferRenders[i]->setClearDepthValue(-1000000.0);
     }
@@ -1032,7 +1005,7 @@ void MeshRender::initDepthBufferData(const Vec3f& defaultClearColor)
 
     ////////////////////////////////////////////////////////////////////////////////
     // camera depth buffer
-    m_CameraDepthBufferRender = std::make_unique<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight);
+    m_CameraDepthBufferRender = std::make_shared<DepthBufferRender>(m_ShadowBufferWidth, m_ShadowBufferHeight);
     m_CameraDepthBufferRender->setDefaultClearColor(defaultClearColor);
     m_CameraDepthBufferRender->setClearDepthValue(-1000000.0);
     m_CameraDepthShader = ShaderProgram::getSimpleCameraSpaceDepthShader();
@@ -1058,8 +1031,7 @@ void MeshRender::initDepthBufferData(const Vec3f& defaultClearColor)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::resizeShadowMap(int width, int height)
-{
+void MeshRender::resizeShadowMap(int width, int height) {
     m_ShadowBufferWidth  = width;
     m_ShadowBufferHeight = height;
 
@@ -1071,8 +1043,7 @@ void MeshRender::resizeShadowMap(int width, int height)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::setupVAO()
-{
+void MeshRender::setupVAO() {
     if(m_MeshObj->isEmpty()) {
         return;
     }
@@ -1106,14 +1077,12 @@ void MeshRender::setupVAO()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<OpenGLTexture>& MeshRender::getLightShadowMap(int lightID /*= 0*/)
-{
+SharedPtr<OpenGLTexture>& MeshRender::getLightShadowMap(int lightID /*= 0*/) {
     assert(m_LightDepthBufferRenders.size() > 0);
     return m_LightDepthBufferRenders[lightID]->getDepthBuffer();
 }
 
-StdVT<SharedPtr<OpenGLTexture>> MeshRender::getAllLightShadowMaps()
-{
+StdVT<SharedPtr<OpenGLTexture>> MeshRender::getAllLightShadowMaps() {
     StdVT<SharedPtr<OpenGLTexture>> depthBuffers;
     for(int i = 0; i < static_cast<int>(m_LightDepthBufferRenders.size()); ++i) {
         depthBuffers.push_back(m_LightDepthBufferRenders[i]->getDepthBuffer());
@@ -1123,14 +1092,12 @@ StdVT<SharedPtr<OpenGLTexture>> MeshRender::getAllLightShadowMaps()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-SharedPtr<OpenGLTexture>& MeshRender::getCameraShadowMap()
-{
+SharedPtr<OpenGLTexture>& MeshRender::getCameraShadowMap() {
     return m_CameraDepthBufferRender->getDepthBuffer();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshRender::initRenderData()
-{
+void MeshRender::initRenderData() {
     assert(m_MeshObj != nullptr);
 
     m_Shader = ShaderProgram::getPhongShader();
@@ -1142,7 +1109,7 @@ void MeshRender::initRenderData()
     m_UHasTexture = m_Shader->getUniformLocation("u_HasTexture");
     m_UHasShadow  = m_Shader->getUniformLocation("u_HasShadow");
     m_UTexSampler = m_Shader->getUniformLocation("u_TexSampler");
-    for(int i = 0; i < MAX_NUM_LIGHTS; ++i) {
+    for(int i = 0; i < LightData::MaxNLights; ++i) {
         char buff[128];
         __NT_SPRINT(buff, "u_ShadowMap[%d]", i);
         m_UShadowMap[i] = m_Shader->getUniformLocation(buff);
@@ -1179,7 +1146,7 @@ void MeshRender::initRenderData()
            m_Material->setDiffuseColor(Vec4f(1.0, 1.0, 0.0, 1.0));
            m_Material->setSpecularColor(Vec4f(1.0));
            m_Material->setShininess(250.0);*/
-        m_Material->setMaterial(Material::MT_Emerald);
+        m_Material->setMaterial(BuildInMaterials::MT_Emerald);
         m_Material->uploadDataToGPU();
     }
 
@@ -1193,16 +1160,21 @@ void MeshRender::initRenderData()
 // Plane render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PlaneRender::setAllowNonTextureRender(bool allowNonTex)
-{
+PlaneRender::PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, QString textureFolder,
+                         const SharedPtr<OpenGLBuffer>& bufferCamData) :
+    MeshRender(std::make_shared<MeshObjects::GridObject>(), camera, light, textureFolder, nullptr, bufferCamData) {}
+
+PlaneRender::PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, const SharedPtr<OpenGLBuffer>& bufferCamData) :
+    MeshRender(std::make_shared<MeshObjects::GridObject>(), camera, light, nullptr, bufferCamData) {}
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+void PlaneRender::setAllowNonTextureRender(bool allowNonTex) {
     m_AllowedNonTexRender = allowNonTex;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PlaneRender::scaleTexCoord(int scaleX, int scaleY)
-{
-    GridObject* gridObj = static_cast<GridObject*>(m_MeshObj.get());
-
+void PlaneRender::scaleTexCoord(int scaleX, int scaleY) {
+    MeshObjects::GridObject* gridObj = static_cast<MeshObjects::GridObject*>(m_MeshObj.get());
     assert(gridObj != nullptr);
     gridObj->scaleTexCoord(scaleX, scaleY);
     gridObj->uploadDataToGPU();
@@ -1210,8 +1182,7 @@ void PlaneRender::scaleTexCoord(int scaleX, int scaleY)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void PlaneRender::render()
-{
+void PlaneRender::render() {
     if(m_CurrentTexture != nullptr || (m_CurrentTexture == nullptr && m_AllowedNonTexRender)) {
         MeshRender::render();
     }

@@ -15,23 +15,14 @@
 #pragma once
 
 #include <LibOpenGL/OpenGLMacros.h>
-#include <LibOpenGL/OpenGLBuffer.h>
+#include <LibOpenGL/LightAndMaterialData.h>
+#include <LibOpenGL/Forward.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#define MAX_NUM_LIGHTS 4
-
-//#ifdef __NT_WINDOWS_OS__
-//#  define MAX_NUM_LIGHTS 8
-//#else
-//#  define MAX_NUM_LIGHTS 2
-//#endif
-
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class Lights : public OpenGLCallable
-{
+class Lights : public OpenGLCallable {
 public:
-    Lights() : m_NumActiveLights(1) { static_assert(sizeof(Vec4f) == sizeof(GLfloat) * 4, "Size of Vec4f != 4 * sizeof(GLfloat)."); }
-    Lights(int numLights) : m_NumActiveLights(numLights) { static_assert(sizeof(Vec4f) == sizeof(GLfloat) * 4, "Size of Vec4f != 4 * sizeof(GLfloat)."); }
+    Lights();
+    Lights(int numLights);
 
     void setNumLights(int numLights) { m_NumActiveLights = numLights; }
     int  getNumLights() const { return m_NumActiveLights; }
@@ -45,53 +36,37 @@ public:
     virtual const Vec4f& getLightDiffuse(int lightID  = 0) const = 0;
     virtual const Vec4f& getLightSpecular(int lightID = 0) const = 0;
 
-    void   bindUniformBuffer() { assert(m_UniformBuffer.isCreated()); m_UniformBuffer.bindBufferBase(); }
+    void   bindUniformBuffer();
     GLuint getBufferBindingPoint();
-    size_t getUniformBufferSize() const { return MAX_NUM_LIGHTS * getLightSize() + sizeof(GLint); }
-    size_t getLightDataSize() const { return MAX_NUM_LIGHTS * getLightSize(); }
+    size_t getUniformBufferSize() const { return LightData::MaxNLights* getLightSize() + sizeof(GLint); }
+    size_t getLightDataSize() const { return LightData::MaxNLights* getLightSize(); }
 
     // data for shadow map
     void   setSceneCenter(const Vec3f& sceneCenter) { m_SceneCenter = sceneCenter; }
-    void   bindUniformBufferLightMatrix() { assert(m_UniformBufferLightMatrix.isCreated()); m_UniformBufferLightMatrix.bindBufferBase(); }
+    void   bindUniformBufferLightMatrix();
     GLuint getBufferLightMatrixBindingPoint();
     void   uploadLightMatrixToGPU();
-
     ////////////////////////////////////////////////////////////////////////////////
     virtual void   updateLightMatrixBuffer() = 0;
     virtual void   uploadDataToGPU()         = 0;
     virtual size_t getLightSize() const      = 0;
 
 protected:
-    struct LightMatrix
-    {
-        Mat4x4f lightViewMatrix       = Mat4x4f(1);
-        Mat4x4f lightProjectionMatrix = Mat4x4f(1);
-    };
-
-    GLint        m_NumActiveLights;
-    OpenGLBuffer m_UniformBuffer;
-    OpenGLBuffer m_UniformBufferLightMatrix;
-    LightMatrix  m_LightMatrices[MAX_NUM_LIGHTS];
-    Vec3f        m_SceneCenter;
+    GLint                   m_NumActiveLights;
+    SharedPtr<OpenGLBuffer> m_UniformBuffer;
+    SharedPtr<OpenGLBuffer> m_UniformBufferLightMatrix;
+    LightMatrix             m_LightMatrices[LightData::LightData::MaxNLights];
+    Vec3f                   m_SceneCenter;
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class DirectionalLights : public Lights
-{
+class DirectionalLights : public Lights {
 public:
-    struct DirectionalLightData
-    {
-        Vec4f ambient   = Vec4f(1.0);
-        Vec4f diffuse   = Vec4f(1.0);
-        Vec4f specular  = Vec4f(1.0);
-        Vec4f direction = Vec4f(1.0);
-    };
-
     void        setLight(const DirectionalLightData& lightData, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID] = lightData; }
-    const auto& getLight(int lightID                                        = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
+    const auto& getLight(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
     void        setLightDirection(const Vec4f& direction, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
-    const auto& getLightDirection(int lightID                         = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].direction; }
+    const auto& getLightDirection(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].direction; }
 
     virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
     virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
@@ -109,7 +84,7 @@ public:
     void         setShadowMapBox(GLfloat minX, GLfloat maxX, GLfloat minY, GLfloat maxY, GLfloat minZ, GLfloat maxZ);
 
 private:
-    DirectionalLightData m_Lights[MAX_NUM_LIGHTS];
+    DirectionalLightData m_Lights[LightData::MaxNLights];
 
     GLfloat m_ShadowMinX;
     GLfloat m_ShadowMaxX;
@@ -120,22 +95,13 @@ private:
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class PointLights : public Lights
-{
+class PointLights : public Lights {
 public:
-    struct PointLightData
-    {
-        Vec4f ambient  = Vec4f(1.0);
-        Vec4f diffuse  = Vec4f(1.0);
-        Vec4f specular = Vec4f(1.0);
-        Vec4f position = Vec4f(1.0);
-    };
-
     virtual void setLight(const PointLightData& lightData, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID] = lightData; }
     const auto& getLight(int lightID) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
     void        setLightPosition(const Vec4f& position, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
-    const auto& getLightPosition(int lightID                        = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
+    const auto& getLightPosition(int lightID = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
 
     virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].ambient = ambient; }
     virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) override { assert(lightID < m_NumActiveLights); m_Lights[lightID].diffuse = diffuse; }
@@ -153,7 +119,7 @@ public:
     void         setLightViewPerspective(GLfloat fov, GLfloat asspect = 1.0, GLfloat nearZ = 0.1f, GLfloat farZ = 1000.0f);
 
 private:
-    PointLightData m_Lights[MAX_NUM_LIGHTS];
+    PointLightData m_Lights[LightData::MaxNLights];
     GLfloat        m_ShadowFOV;
     GLfloat        m_ShadowAspect;
     GLfloat        m_ShadowNearZ;
@@ -161,25 +127,13 @@ private:
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class SpotLights : public Lights
-{
+class SpotLights : public Lights {
 public:
-    struct SpotLightData
-    {
-        Vec4f   ambient;
-        Vec4f   diffuse;
-        Vec4f   specular;
-        Vec4f   position;
-        Vec4f   direction;
-        GLfloat innerCutOffAngle;
-        GLfloat outerCutOffAngle;
-    };
-
     void        setLight(const SpotLightData& lightData, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID] = lightData; }
-    const auto& getLight(int lightID                                 = 0) { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
+    const auto& getLight(int lightID = 0) { assert(lightID < m_NumActiveLights); return m_Lights[lightID]; }
 
-    void setLightPosition(const Vec4f& position, int lightID                   = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
-    void setLightDirection(const Vec4f& direction, int lightID                 = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
+    void setLightPosition(const Vec4f& position, int lightID   = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].position = position; }
+    void setLightDirection(const Vec4f& direction, int lightID = 0) { assert(lightID < m_NumActiveLights); m_Lights[lightID].direction = direction; }
     void setLightCuffOffAngles(float innerAngle, float outerAngle, int lightID = 0);
 
     const auto& getLightPosition(int lightID    = 0) const { assert(lightID < m_NumActiveLights); return m_Lights[lightID].position; }
@@ -203,7 +157,7 @@ public:
     void         setLightViewPerspective(GLfloat fov, GLfloat asspect = 1.0f, GLfloat nearZ = 0.1f, GLfloat farZ = 1000.0f);
 
 private:
-    SpotLightData m_Lights[MAX_NUM_LIGHTS];
+    SpotLightData m_Lights[LightData::MaxNLights];
     GLfloat       m_ShadowFOV;
     GLfloat       m_ShadowAspect;
     GLfloat       m_ShadowNearZ;

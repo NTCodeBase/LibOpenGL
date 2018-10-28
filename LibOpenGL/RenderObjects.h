@@ -14,31 +14,22 @@
 
 #pragma once
 
-#include <LibOpenGL/Camera.h>
-#include <LibOpenGL/Lights.h>
-#include <LibOpenGL/Material.h>
+#include <LibOpenGL/Forward.h>
 #include <LibOpenGL/OpenGLMacros.h>
-#include <LibOpenGL/OpenGLBuffer.h>
-#include <LibOpenGL/OpenGLTexture.h>
-#include <LibOpenGL/ShaderProgram.h>
-#include <LibOpenGL/MeshObjects/CubeObject.h>
-#include <LibOpenGL/MeshObjects/GridObject.h>
-#include <LibOpenGL/MeshObjects/WireFrameBoxObject.h>
+#include <LibOpenGL/LightAndMaterialData.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // abstract base class of object render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class RenderObject : public OpenGLCallable
-{
+class RenderObject : public OpenGLCallable {
 public:
     const auto& getShader() const { return m_Shader; }
 
 protected:
     RenderObject(const SharedPtr<Camera>& camera, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        m_Camera(camera), m_UBufferCamData(bufferCamData)
-    {
+        m_Camera(camera), m_UBufferCamData(bufferCamData) {
         m_SelfUpdateCamera = (m_UBufferCamData == nullptr);
     }
 
@@ -61,13 +52,11 @@ protected:
 // SkyBox render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class SkyBoxRender : public RenderObject
-{
+class SkyBoxRender : public RenderObject {
 public:
 #ifdef __NT_QT__
     SkyBoxRender(const SharedPtr<Camera>& camera, QString texureTopFolder, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr)
-    {
+        RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr) {
         initRenderData();
         loadTextures(texureTopFolder);
     }
@@ -76,14 +65,12 @@ public:
 #endif
 
     SkyBoxRender(const SharedPtr<Camera>& camera, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr)
-    {
+        RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr) {
         initRenderData();
     }
 
     SkyBoxRender(const SharedPtr<Camera>& camera, const StdVT<SharedPtr<OpenGLTexture>>& textures, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData), m_Textures(textures), m_CurrentTexture(nullptr)
-    {
+        RenderObject(camera, bufferCamData), m_Textures(textures), m_CurrentTexture(nullptr) {
         initRenderData();
     }
 
@@ -99,11 +86,11 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                          m_AtrVPosition;
-    GLuint                          m_UTexSampler;
-    UniquePtr<CubeObject>           m_CubeObj;
-    SharedPtr<OpenGLTexture>        m_CurrentTexture;
-    StdVT<SharedPtr<OpenGLTexture>> m_Textures;
+    GLuint                             m_AtrVPosition;
+    GLuint                             m_UTexSampler;
+    SharedPtr<MeshObjects::CubeObject> m_CubeObj;
+    SharedPtr<OpenGLTexture>           m_CurrentTexture;
+    StdVT<SharedPtr<OpenGLTexture>>    m_Textures;
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -111,12 +98,10 @@ protected:
 // Light render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class PointLightRender : public RenderObject
-{
+class PointLightRender : public RenderObject {
 public:
     PointLightRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& lights, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData), m_Lights(lights), m_RenderSize(20.0)
-    {
+        RenderObject(camera, bufferCamData), m_Lights(lights), m_RenderSize(20.0) {
         initRenderData();
     }
 
@@ -136,12 +121,10 @@ private:
 // WirteFrameBoxRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class WireFrameBoxRender : public RenderObject
-{
+class WireFrameBoxRender : public RenderObject {
 public:
     WireFrameBoxRender(const SharedPtr<Camera>& camera, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData)
-    {
+        RenderObject(camera, bufferCamData) {
         initRenderData();
     }
 
@@ -157,10 +140,10 @@ public:
 private:
     virtual void initRenderData() override;
 
-    Vec3f                         m_BoxColor = getDefaultBoxColor();
-    GLuint                        m_AtrVPosition;
-    GLuint                        m_UColor;
-    UniquePtr<WireFrameBoxObject> m_WireFrameBoxObj;
+    Vec3f                                      m_BoxColor = getDefaultBoxColor();
+    GLuint                                     m_AtrVPosition;
+    GLuint                                     m_UColor;
+    SharedPtr<MeshObjects::WireFrameBoxObject> m_WireFrameBoxObj;
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -168,12 +151,10 @@ private:
 // OffScreenRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class OffScreenRender : public RenderObject
-{
+class OffScreenRender : public RenderObject {
 public:
     OffScreenRender(int width, int height, int numColorBuffers = 1, GLenum formatColorBuffers = GL_RGBA) :
-        RenderObject(nullptr, nullptr), m_BufferWidth(width), m_BufferHeight(height), m_NumColorBuffers(numColorBuffers), m_FormatColorBuff(formatColorBuffers)
-    {
+        RenderObject(nullptr, nullptr), m_BufferWidth(width), m_BufferHeight(height), m_NumColorBuffers(numColorBuffers), m_FormatColorBuff(formatColorBuffers) {
         initRenderData();
     }
 
@@ -184,7 +165,7 @@ public:
     virtual void setNumColorBuffers(int numColorBuffers);
     void         setColorBufferParameter(GLenum paramName, GLenum paramValue);
 
-    SharedPtr<OpenGLTexture>& getColorBuffer(int colorBufferID                                        = 0);
+    SharedPtr<OpenGLTexture>& getColorBuffer(int colorBufferID = 0);
     void                      swapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID     = 0);
     void                      fastSwapColorBuffer(SharedPtr<OpenGLTexture>& colorBuffer, int bufferID = 0);
 
@@ -207,8 +188,7 @@ protected:
 // DepthBufferRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class DepthBufferRender : public OffScreenRender
-{
+class DepthBufferRender : public OffScreenRender {
 public:
     DepthBufferRender(int width = 1024, int height = 1024) :
         OffScreenRender(width, height, 1, GL_R32F), m_ClearLinearDepthValue(-1.0e6), m_DefaultClearColor(Vec3f(0.8, 0.8, 0.8)) {}
@@ -234,8 +214,7 @@ private:
 // ScreenQuadTextureRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class ScreenQuadTextureRender : public RenderObject
-{
+class ScreenQuadTextureRender : public RenderObject {
 public:
     ScreenQuadTextureRender() : RenderObject(nullptr, nullptr), m_Texture(nullptr), m_TexelSizeValue(1), m_ValueScale(1.0) { initRenderData(); }
     ScreenQuadTextureRender(SharedPtr<OpenGLTexture>& texture, int texelSize = 1) :
@@ -261,8 +240,7 @@ private:
 // CheckerboardBackgroundRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class CheckerboardBackgroundRender : public RenderObject
-{
+class CheckerboardBackgroundRender : public RenderObject {
 public:
     CheckerboardBackgroundRender() : RenderObject(nullptr, nullptr) { initRenderData(); }
     CheckerboardBackgroundRender(const Vec3f& color1, const Vec3f& color2) : RenderObject(nullptr, nullptr) { initRenderData(); setColors(color1, color2); }
@@ -306,8 +284,7 @@ private:
 // GridBackgroundRender
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class GridBackgroundRender : public RenderObject
-{
+class GridBackgroundRender : public RenderObject {
 public:
     GridBackgroundRender() : RenderObject(nullptr, nullptr) { initRenderData(); }
     GridBackgroundRender(const Vec3f& backgroundColor, const Vec3f& lineColor) :
@@ -354,28 +331,20 @@ private:
 // Mesh render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class MeshRender : public RenderObject
-{
+class MeshRender : public RenderObject {
 public:
 #ifdef __NT_QT__
-    MeshRender(const SharedPtr<MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
+    MeshRender(const SharedPtr<MeshObjects::MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
                QString textureFolder,
-               const SharedPtr<Material>& material = nullptr, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        RenderObject(camera, bufferCamData), m_MeshObj(meshObj), m_Lights(light), m_Material(material), m_CurrentTexture(nullptr),
-        m_ShadowBufferWidth(1024), m_ShadowBufferHeight(1024), m_Exposure(1.0f)
-    {
-        initRenderData();
-        OpenGLTexture::loadTextures(m_Textures, textureFolder);
-    }
+               const SharedPtr<Material>& material = nullptr, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr);
 
-    void loadTextures(QString textureFolder) { OpenGLTexture::loadTextures(m_Textures, textureFolder); }
+    void loadTextures(QString textureFolder);
 #endif
 
-    MeshRender(const SharedPtr<MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
+    MeshRender(const SharedPtr<MeshObjects::MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
                const SharedPtr<Material>& material = nullptr, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
         RenderObject(camera, bufferCamData), m_MeshObj(meshObj), m_Lights(light), m_Material(material), m_CurrentTexture(nullptr),
-        m_ShadowBufferWidth(1024), m_ShadowBufferHeight(1024), m_Exposure(1.0f)
-    {
+        m_ShadowBufferWidth(1024), m_ShadowBufferHeight(1024), m_Exposure(1.0f) {
         initRenderData();
     }
 
@@ -386,7 +355,7 @@ public:
     const auto& getTranslation() const { return m_Translation; }
     const auto& getScales() const { return m_Scales; }
 
-    void clearTextures(bool insertNullTex                                       = true);
+    void clearTextures(bool insertNullTex = true);
     void addTexture(const SharedPtr<OpenGLTexture>& texture, GLenum texWrapMode = GL_REPEAT);
     void setRenderTextureIndex(int texIndex);
     void setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps);
@@ -410,24 +379,24 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                          m_AtrVPosition;
-    GLuint                          m_AtrVNormal;
-    GLuint                          m_AtrVTexCoord;
-    GLuint                          m_UBLight;
-    GLuint                          m_UBLightMatrices;
-    GLuint                          m_LDSULightID;
-    GLuint                          m_UBMaterial;
-    GLuint                          m_UHasTexture;
-    GLuint                          m_UHasShadow;
-    GLuint                          m_UTexSampler;
-    GLuint                          m_UShadowMap[MAX_NUM_LIGHTS];
-    GLuint                          m_UExposure;
-    SharedPtr<MeshObject>           m_MeshObj;
-    SharedPtr<PointLights>          m_Lights;
-    SharedPtr<Material>             m_Material;
-    StdVT<SharedPtr<OpenGLTexture>> m_Textures;
-    SharedPtr<OpenGLTexture>        m_CurrentTexture;
-    StdVT<SharedPtr<OpenGLTexture>> m_ExternalShadowMaps;
+    GLuint                             m_AtrVPosition;
+    GLuint                             m_AtrVNormal;
+    GLuint                             m_AtrVTexCoord;
+    GLuint                             m_UBLight;
+    GLuint                             m_UBLightMatrices;
+    GLuint                             m_LDSULightID;
+    GLuint                             m_UBMaterial;
+    GLuint                             m_UHasTexture;
+    GLuint                             m_UHasShadow;
+    GLuint                             m_UTexSampler;
+    GLuint                             m_UShadowMap[LightData::MaxNLights];
+    GLuint                             m_UExposure;
+    SharedPtr<MeshObjects::MeshObject> m_MeshObj;
+    SharedPtr<PointLights>             m_Lights;
+    SharedPtr<Material>                m_Material;
+    StdVT<SharedPtr<OpenGLTexture>>    m_Textures;
+    SharedPtr<OpenGLTexture>           m_CurrentTexture;
+    StdVT<SharedPtr<OpenGLTexture>>    m_ExternalShadowMaps;
 
     bool    m_DepthBufferInitialized = false;
     GLint   m_ShadowBufferWidth;
@@ -446,10 +415,10 @@ protected:
     Vec3f                               m_Scales      = Vec3f(1.0);
     SharedPtr<ShaderProgram>            m_LightDepthShader;
     SharedPtr<ShaderProgram>            m_CameraDepthShader;
-    StdVT<UniquePtr<DepthBufferRender>> m_LightDepthBufferRenders;
-    UniquePtr<DepthBufferRender>        m_CameraDepthBufferRender;
-    Mat4x4f                             m_LightView[MAX_NUM_LIGHTS];
-    Mat4x4f                             m_LightProjection[MAX_NUM_LIGHTS];
+    StdVT<SharedPtr<DepthBufferRender>> m_LightDepthBufferRenders;
+    SharedPtr<DepthBufferRender>        m_CameraDepthBufferRender;
+    Mat4x4f                             m_LightView[LightData::MaxNLights];
+    Mat4x4f                             m_LightProjection[LightData::MaxNLights];
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -457,20 +426,16 @@ protected:
 // Plane render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class PlaneRender : public MeshRender
-{
+class PlaneRender : public MeshRender {
 public:
 #ifdef __NT_QT__
     PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, QString textureFolder,
-                const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        MeshRender(std::make_shared<GridObject>(), camera, light, textureFolder, nullptr, bufferCamData) {}
+                const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr);
 #endif
 
-    PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
-        MeshRender(std::make_shared<GridObject>(), camera, light, nullptr, bufferCamData) {}
+    PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr);
 
     const auto& getScaleTexCoord() const { return m_ScaleTexCoord; }
-
     void setAllowNonTextureRender(bool allowNonTex);
     void scaleTexCoord(int scaleX, int scaleY);
 

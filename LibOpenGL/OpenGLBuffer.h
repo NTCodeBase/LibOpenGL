@@ -13,13 +13,11 @@
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 #pragma once
-
 #include <cstddef>
 #include <LibOpenGL/OpenGLMacros.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-class OpenGLBuffer : public OpenGLCallable
-{
+class OpenGLBuffer : public OpenGLCallable {
 public:
     OpenGLBuffer() : m_isBufferCreated(false), m_BufferSize(0) {}
     ~OpenGLBuffer() { deleteBuffer(); }
@@ -47,7 +45,7 @@ private:
     GLenum m_BufferType;
     GLenum m_BufferUsage;
 
-    size_t        m_BufferSize;
-    GLuint        m_BindingPoint;
-    static GLuint s_TotalBindingPoints;
+    size_t               m_BufferSize;
+    GLuint               m_BindingPoint;
+    static inline GLuint s_TotalBindingPoints = 0;
 };

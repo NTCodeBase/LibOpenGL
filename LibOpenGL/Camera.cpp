@@ -15,8 +15,7 @@
 #include <LibOpenGL/Camera.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::setCamera(const Vec3f& defaultPosition, const Vec3f& defaultCameraFocus, const Vec3f& defaultUpDirection)
-{
+void Camera::setCamera(const Vec3f& defaultPosition, const Vec3f& defaultCameraFocus, const Vec3f& defaultUpDirection) {
     m_DefaultCameraPosition = defaultPosition;
     m_DefaultCameraFocus    = defaultCameraFocus;
     m_DefaultUpDirection    = defaultUpDirection;
@@ -33,22 +32,19 @@ void Camera::setCamera(const Vec3f& defaultPosition, const Vec3f& defaultCameraF
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::setProjection(Projection projection)
-{
+void Camera::setProjection(Projection projection) {
     m_Projection = projection;
     updateProjectionMatrix();
 }
 
-void Camera::setFrustum(float fov, float nearZ, float farZ)
-{
+void Camera::setFrustum(float fov, float nearZ, float farZ) {
     m_Frustum.m_Fov  = fov;
     m_Frustum.m_Near = nearZ;
     m_Frustum.m_Far  = farZ;
     updateProjectionMatrix();
 }
 
-void Camera::setOrthoBox(float bLeft, float bRight, float bBottom, float bTop, float bNear /*= -10.0f*/, float bFar /*= 10.0f*/)
-{
+void Camera::setOrthoBox(float bLeft, float bRight, float bBottom, float bTop, float bNear /*= -10.0f*/, float bFar /*= 10.0f*/) {
     m_OrthoBoxMin        = Vec3f(bLeft, bBottom, bNear);
     m_OrthoBoxMax        = Vec3f(bRight, bTop, bFar);
     m_DefaultOrthoBoxMin = m_OrthoBoxMin;
@@ -57,16 +53,14 @@ void Camera::setOrthoBox(float bLeft, float bRight, float bBottom, float bTop, f
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::resizeWindow(int width, int height)
-{
+void Camera::resizeWindow(int width, int height) {
     m_WindowWidth  = width;
     m_WindowHeight = height;
     updateProjectionMatrix();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::updateProjectionMatrix()
-{
+void Camera::updateProjectionMatrix() {
     if(m_WindowWidth == 0 || m_WindowHeight == 0) {
         return;
     }
@@ -92,8 +86,7 @@ void Camera::updateProjectionMatrix()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::updateCameraMatrices()
-{
+void Camera::updateCameraMatrices() {
     if(m_bReset) {
         m_bReset = false;
         setDirty(true);
@@ -133,8 +126,7 @@ void Camera::updateCameraMatrices()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::reset()
-{
+void Camera::reset() {
     m_CameraPosition    = m_DefaultCameraPosition;
     m_CameraFocus       = m_DefaultCameraFocus;
     m_CameraUpDirection = m_DefaultUpDirection;
@@ -155,8 +147,7 @@ void Camera::reset()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::translate_by_mouse(int x, int y)
-{
+void Camera::translate_by_mouse(int x, int y) {
     Vec2f currentMousePos = Vec2f((float)x, (float)y);
     Vec2f mouseMoved      = m_LastMousePos - currentMousePos;
     m_LastMousePos = currentMousePos;
@@ -171,8 +162,7 @@ void Camera::translate_by_mouse(int x, int y)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::translate(const Vec2f& _translation)
-{
+void Camera::translate(const Vec2f& _translation) {
     Vec3f eyeDir = m_CameraFocus - m_CameraPosition;
     float scale  = eyeDir.length() * 0.5f;
 
@@ -181,8 +171,7 @@ void Camera::translate(const Vec2f& _translation)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::translate()
-{
+void Camera::translate() {
     m_Translation *= m_TranslationLag;
 
     Vec3f eyeDir = m_CameraFocus - m_CameraPosition;
@@ -200,8 +189,7 @@ void Camera::translate()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::rotate_by_mouse(int x, int y)
-{
+void Camera::rotate_by_mouse(int x, int y) {
     Vec2f currentMousePos = Vec2f((float)x, (float)y);
     Vec2f mouseMoved      = m_LastMousePos - currentMousePos;
     m_LastMousePos = currentMousePos;
@@ -221,15 +209,13 @@ void Camera::rotate_by_mouse(int x, int y)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::rotate(const Vec3f& _rotation)
-{
+void Camera::rotate(const Vec3f& _rotation) {
     m_Rotation = _rotation;
     rotate();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::rotate()
-{
+void Camera::rotate() {
     m_Rotation *= m_RotationLag;
 
     Vec3f eyeDir = m_CameraFocus - m_CameraPosition;
@@ -253,8 +239,7 @@ void Camera::rotate()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::zoom_by_mouse(int x, int y)
-{
+void Camera::zoom_by_mouse(int x, int y) {
     Vec2f currentMousePos = Vec2f((float)x, (float)y);
     Vec2f mouseMoved      = m_LastMousePos - currentMousePos;
     m_LastMousePos = currentMousePos;
@@ -266,15 +251,13 @@ void Camera::zoom_by_mouse(int x, int y)
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::zoom(float _zooming)
-{
+void Camera::zoom(float _zooming) {
     m_Zooming = _zooming;
     zoom();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void Camera::zoom()
-{
+void Camera::zoom() {
     m_Zooming *= m_ZoomingLag;
 
     if(m_Projection == PerspectiveProjection) {
@@ -298,8 +281,7 @@ void Camera::zoom()
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-Vec3f Camera::getOrthoBoxMin() const
-{
+Vec3f Camera::getOrthoBoxMin() const {
     auto aspectRatio = static_cast<float>(m_WindowWidth) / static_cast<float>(m_WindowHeight);
     if((m_OrthoBoxMax.x - m_OrthoBoxMin.x) > (m_OrthoBoxMax.y - m_OrthoBoxMin.y)) {
         return Vec3f(m_OrthoBoxMin.x, m_OrthoBoxMin.x / aspectRatio, m_OrthoBoxMin.z);
@@ -309,8 +291,7 @@ Vec3f Camera::getOrthoBoxMin() const
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-Vec3f Camera::getOrthoBoxMax() const
-{
+Vec3f Camera::getOrthoBoxMax() const {
     auto aspectRatio = static_cast<float>(m_WindowWidth) / static_cast<float>(m_WindowHeight);
     if((m_OrthoBoxMax.x - m_OrthoBoxMin.x) > (m_OrthoBoxMax.y - m_OrthoBoxMin.y)) {
         return Vec3f(m_OrthoBoxMax.x, m_OrthoBoxMax.x / aspectRatio, m_OrthoBoxMax.z);
