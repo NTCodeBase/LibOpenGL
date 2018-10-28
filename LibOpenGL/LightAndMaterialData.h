@@ -32,27 +32,27 @@ struct LightMatrix {
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 struct DirectionalLightData {
-    Vec4f ambient   = Vec4f(0.0);
-    Vec4f diffuse   = Vec4f(1.0);
-    Vec4f specular  = Vec4f(1.0);
-    Vec4f direction = Vec4f(1.0);
+    Vec4f ambient   = Vec4f(0.1f);
+    Vec4f diffuse   = Vec4f(1.0f);
+    Vec4f specular  = Vec4f(1.0f);
+    Vec4f direction = Vec4f(1.0f);
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 struct PointLightData {
-    Vec4f ambient  = Vec4f(0.0);
-    Vec4f diffuse  = Vec4f(1.0);
-    Vec4f specular = Vec4f(1.0);
-    Vec4f position = Vec4f(0.0);
+    Vec4f ambient  = Vec4f(0.1f);
+    Vec4f diffuse  = Vec4f(1.0f);
+    Vec4f specular = Vec4f(1.0f);
+    Vec4f position = Vec4f(0.0f);
 };
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 struct SpotLightData {
-    Vec4f ambient   = Vec4f(0.0);
-    Vec4f diffuse   = Vec4f(1.0);
-    Vec4f specular  = Vec4f(1.0);
-    Vec4f position  = Vec4f(0.0);
-    Vec4f direction = Vec4f(1.0);
+    Vec4f ambient   = Vec4f(0.1f);
+    Vec4f diffuse   = Vec4f(1.0f);
+    Vec4f specular  = Vec4f(1.0f);
+    Vec4f position  = Vec4f(0.0f);
+    Vec4f direction = Vec4f(1.0f);
     float innerCutOffAngle;
     float outerCutOffAngle;
 };
