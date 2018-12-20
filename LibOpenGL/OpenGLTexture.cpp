@@ -15,10 +15,9 @@
 #include <LibOpenGL/OpenGLTexture.h>
 #include <future>
 #include <vector>
-#include <memory>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::createTexture(GLenum textureTarget) {
+void OpenGLTexture::createTexture(GLenum textureTarget) {
     assert(!m_bTextureCreated);
     glCall(glGenTextures(1, &m_TextureID));
     m_bTextureCreated = true;
@@ -26,7 +25,7 @@ void OpenGLTexture::OpenGLTexture::createTexture(GLenum textureTarget) {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::generateMipMap() {
+void OpenGLTexture::generateMipMap() {
     assert(m_bTextureCreated);
     bind();
     glCall(glGenerateMipmap(m_TexureTarget));
@@ -34,8 +33,7 @@ void OpenGLTexture::OpenGLTexture::generateMipMap() {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::uploadData(GLenum texTarget, GLint internalFormat, GLsizei width, GLsizei height,
-                                              GLenum dataFormat, GLenum dataType, const GLvoid* data) {
+void OpenGLTexture::uploadData(GLenum texTarget, GLint internalFormat, GLsizei width, GLsizei height, GLenum dataFormat, GLenum dataType, const GLvoid* data) {
     assert(m_bTextureCreated);
     bind();
     glCall(glTexImage2D(texTarget, 0, internalFormat, width, height, 0, dataFormat, dataType, data));
@@ -51,7 +49,7 @@ void OpenGLTexture::setTextureParameter(GLenum filterMode, GLenum value) {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::setAnisotropicFilter(bool enable) {
+void OpenGLTexture::setAnisotropicFilter(bool enable) {
     assert(m_bTextureCreated);
     bind();
     GLfloat fLargest = 1.0;
@@ -127,7 +125,7 @@ void OpenGLTexture::setSimplestTexture() {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::bind(GLuint texUnit /*= 0*/) {
+void OpenGLTexture::bind(GLuint texUnit /*= 0*/) {
     assert(m_bTextureCreated);
     m_BindedTexUnit = GL_TEXTURE0 + texUnit;
     glCall(glActiveTexture(m_BindedTexUnit));
@@ -135,7 +133,7 @@ void OpenGLTexture::OpenGLTexture::bind(GLuint texUnit /*= 0*/) {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLTexture::OpenGLTexture::release() {
+void OpenGLTexture::release() {
     glCall(glActiveTexture(m_BindedTexUnit));
     glCall(glBindTexture(m_TexureTarget, 0));
 }

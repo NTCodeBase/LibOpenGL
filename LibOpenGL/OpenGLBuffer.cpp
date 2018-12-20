@@ -15,15 +15,6 @@
 #include <LibOpenGL/OpenGLBuffer.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void OpenGLBuffer::deleteBuffer() {
-    if(!m_isBufferCreated) {
-        return;
-    }
-    glCall(glDeleteBuffers(1, &m_BufferID));
-    m_isBufferCreated = false;
-}
-
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 void OpenGLBuffer::createBuffer(GLenum bufferType, size_t bufferSize, const GLvoid* buffData, GLenum bufferUsage) {
     m_BufferType  = bufferType;
     m_BufferUsage = bufferUsage;

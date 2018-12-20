@@ -20,10 +20,6 @@
 class OpenGLBuffer : public OpenGLCallable {
 public:
     OpenGLBuffer() : m_isBufferCreated(false), m_BufferSize(0) {}
-    ~OpenGLBuffer() { deleteBuffer(); }
-
-    //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    void deleteBuffer();
     void createBuffer(GLenum bufferType, size_t bufferSize, const GLvoid* buffData = nullptr, GLenum bufferUsage = GL_STATIC_DRAW);
     void resize(size_t bufferSize);
     void uploadData(const GLvoid* data, size_t offset, size_t dataSize);
@@ -45,7 +41,8 @@ private:
     GLenum m_BufferType;
     GLenum m_BufferUsage;
 
-    size_t               m_BufferSize;
-    GLuint               m_BindingPoint;
+    size_t m_BufferSize;
+    GLuint m_BindingPoint;
+    ////////////////////////////////////////////////////////////////////////////////
     static inline GLuint s_TotalBindingPoints = 0;
 };

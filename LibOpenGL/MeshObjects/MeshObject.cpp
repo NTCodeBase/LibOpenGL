@@ -22,7 +22,6 @@ namespace MeshObjects {
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 MeshObject::~MeshObject() {
     clearData();
-    clearBuffer();
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -357,17 +356,6 @@ void MeshObject::createBuffers() {
 
     // upload to GPU
     // uploadDataToGPU();
-}
-
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-void MeshObject::clearBuffer() {
-    m_VertexBuffer->deleteBuffer();
-    if(m_NormalBuffer != nullptr) { m_NormalBuffer->deleteBuffer(); }
-    if(m_VertexColorBuffer != nullptr) { m_VertexColorBuffer->deleteBuffer(); }
-    if(m_TexCoordBuffer != nullptr) { m_TexCoordBuffer->deleteBuffer(); }
-    if(m_IndexBuffer != nullptr) { m_IndexBuffer->deleteBuffer(); }
-    ////////////////////////////////////////////////////////////////////////////////
-    m_isGLDataReady = false;
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

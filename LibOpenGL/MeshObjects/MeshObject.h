@@ -92,7 +92,6 @@ public:
 
 protected:
     void createBuffers();
-    void clearBuffer();
 
     ////////////////////////////////////////////////////////////////////////////////
     SharedPtr<OpenGLBuffer> m_VertexBuffer      = nullptr;
