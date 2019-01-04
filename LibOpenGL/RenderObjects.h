@@ -19,6 +19,8 @@
 #include <LibOpenGL/LightAndMaterialData.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+namespace NTCodeBase {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // abstract base class of object render
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -86,8 +88,8 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                             m_AtrVPosition;
-    GLuint                             m_UTexSampler;
+    GLuint m_AtrVPosition;
+    GLuint m_UTexSampler;
     SharedPtr<MeshObjects::CubeObject> m_CubeObj;
     SharedPtr<OpenGLTexture>           m_CurrentTexture;
     StdVT<SharedPtr<OpenGLTexture>>    m_Textures;
@@ -111,8 +113,8 @@ public:
 private:
     virtual void initRenderData() override;
 
-    GLfloat                       m_RenderSize;
-    GLuint                        m_UBLight;
+    GLfloat m_RenderSize;
+    GLuint  m_UBLight;
     const SharedPtr<PointLights>& m_Lights;
 };
 
@@ -140,9 +142,9 @@ public:
 private:
     virtual void initRenderData() override;
 
-    Vec3f                                      m_BoxColor = getDefaultBoxColor();
-    GLuint                                     m_AtrVPosition;
-    GLuint                                     m_UColor;
+    Vec3f  m_BoxColor = getDefaultBoxColor();
+    GLuint m_AtrVPosition;
+    GLuint m_UColor;
     SharedPtr<MeshObjects::WireFrameBoxObject> m_WireFrameBoxObj;
 };
 
@@ -174,12 +176,12 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    int                             m_BufferWidth;
-    int                             m_BufferHeight;
-    int                             m_NumColorBuffers;
-    GLenum                          m_FormatColorBuff;
-    GLuint                          m_FrameBufferID;
-    GLuint                          m_RenderBufferID;
+    int    m_BufferWidth;
+    int    m_BufferHeight;
+    int    m_NumColorBuffers;
+    GLenum m_FormatColorBuff;
+    GLuint m_FrameBufferID;
+    GLuint m_RenderBufferID;
     StdVT<SharedPtr<OpenGLTexture>> m_ColorBuffers;
 };
 
@@ -379,18 +381,18 @@ public:
 protected:
     virtual void initRenderData() override;
 
-    GLuint                             m_AtrVPosition;
-    GLuint                             m_AtrVNormal;
-    GLuint                             m_AtrVTexCoord;
-    GLuint                             m_UBLight;
-    GLuint                             m_UBLightMatrices;
-    GLuint                             m_LDSULightID;
-    GLuint                             m_UBMaterial;
-    GLuint                             m_UHasTexture;
-    GLuint                             m_UHasShadow;
-    GLuint                             m_UTexSampler;
-    GLuint                             m_UShadowMap[LightData::MaxNLights];
-    GLuint                             m_UExposure;
+    GLuint m_AtrVPosition;
+    GLuint m_AtrVNormal;
+    GLuint m_AtrVTexCoord;
+    GLuint m_UBLight;
+    GLuint m_UBLightMatrices;
+    GLuint m_LDSULightID;
+    GLuint m_UBMaterial;
+    GLuint m_UHasTexture;
+    GLuint m_UHasShadow;
+    GLuint m_UTexSampler;
+    GLuint m_UShadowMap[LightData::MaxNLights];
+    GLuint m_UExposure;
     SharedPtr<MeshObjects::MeshObject> m_MeshObj;
     SharedPtr<PointLights>             m_Lights;
     SharedPtr<Material>                m_Material;
@@ -445,3 +447,5 @@ protected:
     Vec2f m_ScaleTexCoord       = Vec2f(1.0);
     bool  m_AllowedNonTexRender = true;
 };
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace NTCodeBase

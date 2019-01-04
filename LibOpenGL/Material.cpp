@@ -16,6 +16,8 @@
 #include <LibOpenGL/Material.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+namespace NTCodeBase {
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 Material::Material(String materialName /*= String("NoName")*/) : m_UniformBuffer(std::make_shared<OpenGLBuffer>()) {
     static_assert(sizeof(Vec4f) == sizeof(GLfloat) * 4, "Size of Vec4f != 4 * sizeof(GLfloat).");
     assert(m_UniformBuffer != nullptr);
@@ -137,3 +139,6 @@ void Material::setMaterial(const MaterialData& material) {
 String Material::getName() {
     return m_MaterialData.name;
 }
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+} // end namespace NTCodeBase
