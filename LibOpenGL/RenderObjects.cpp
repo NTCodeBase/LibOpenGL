@@ -893,6 +893,8 @@ void MeshRender::render() {
         m_Shader->setUniformValue(m_UHasShadow, 0);
     }
 
+    m_Shader->setUniformValue(u_ClipPlane, m_ClipPlane);
+
     glCall(glBindVertexArray(m_VAO));
     m_MeshObj->draw();
     glCall(glBindVertexArray(0));
@@ -1117,6 +1119,7 @@ void MeshRender::initRenderData() {
         m_UShadowMap[i] = m_Shader->getUniformLocation(buff);
     }
     m_UExposure = m_Shader->getUniformLocation("u_Exposure");
+    u_ClipPlane = m_Shader->getUniformLocation("u_ClipPlane");
 
     m_UBModelMatrix   = m_Shader->getUniformBlockIndex("ModelMatrix");
     m_UBCamData       = m_Shader->getUniformBlockIndex("CameraData");

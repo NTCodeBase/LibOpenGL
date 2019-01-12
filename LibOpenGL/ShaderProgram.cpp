@@ -672,6 +672,7 @@ layout(std140) uniform CameraData
 };
 
 uniform int u_HasShadow;
+uniform vec4 u_ClipPlane;
 
 layout(location = 0) in vec3 v_Position;
 layout(location = 1) in vec3 v_Normal;
@@ -703,6 +704,7 @@ void main()
         }
     }
     gl_Position = projectionMatrix * viewMatrix * worldCoord;
+    gl_ClipDistance[0] = dot(vec4(v_Position, 1.0), u_ClipPlane);
 }
 )";
 

@@ -363,6 +363,7 @@ public:
     void setExternalShadowMaps(const StdVT<SharedPtr<OpenGLTexture>>& shadowMaps);
     void resizeShadowMap(int width, int height);
     void setExposure(float exposure) { m_Exposure = exposure; }
+    void setClipPlane(const Vec4f& clipPlane) { m_ClipPlane = clipPlane; }
     void transform(const Vec3f& translation, const Vec3f& scales);
     void translate(const Vec3f& translation) { m_Translation = translation; transform(translation, m_Scales); }
     void scale(const Vec3f& scales) { m_Scales = scales; transform(m_Translation, scales); }
@@ -393,6 +394,7 @@ protected:
     GLuint m_UTexSampler;
     GLuint m_UShadowMap[LightData::MaxNLights];
     GLuint m_UExposure;
+    GLuint u_ClipPlane;
     SharedPtr<MeshObjects::MeshObject> m_MeshObj;
     SharedPtr<PointLights>             m_Lights;
     SharedPtr<Material>                m_Material;
@@ -412,6 +414,7 @@ protected:
     GLuint  m_CDSUBModelMatrix;
     GLuint  m_CDSUBCameraData;
     GLuint  m_CDSVAO;
+    Vec4f   m_ClipPlane = Vec4f(1.0f, 0.0f, 0.0f, 0.0f);
 
     Vec3f                               m_Translation = Vec3f(0);
     Vec3f                               m_Scales      = Vec3f(1.0);
