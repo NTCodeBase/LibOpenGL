@@ -14,7 +14,7 @@
 
 #include <LibCommon/Utils/NumberHelpers.h>
 #include <LibCommon/Math/MathHelpers.h>
-#include <LibCommon/ParallelHelpers/Scheduler.h>
+#include <LibCommon/ParallelHelpers/ParallelExec.h>
 #include <LibOpenGL/MeshObjects/MeshObject.h>
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -130,7 +130,7 @@ void MeshObject::inverseVertexNormal() {
     if(!m_hasVertexNormal) {
         return;
     }
-    Scheduler::parallel_for(m_NVertices, [&](size_t i) { m_VertexNormals[i] *= -1.0f; });
+    ParallelExec::run(m_NVertices, [&](size_t i) { m_VertexNormals[i] *= -1.0f; });
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -162,7 +162,7 @@ void MeshObject::scaleVertexTexCoord(GLfloat scaleX, GLfloat scaleY) {
     if(!m_hasVertexTexCoord) {
         return;
     }
-    Scheduler::parallel_for(m_NVertices, [&](size_t i) { m_VertexTexCoords[i] *= Vec2f(scaleX, scaleY); });
+    ParallelExec::run(m_NVertices, [&](size_t i) { m_VertexTexCoords[i] *= Vec2f(scaleX, scaleY); });
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
