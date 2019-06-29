@@ -39,11 +39,11 @@ public:
     void bind(GLuint texUnit = 0);
     void release();
 
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
     static void        loadTextures(StdVT<SharedPtr<OpenGLTexture>>& textures, QString textureFolder, bool insertNullTex = true, bool bGenMipMap = true);
     static QStringList getTextureFolders(QString texType, QString texRootFolder = QString("Textures"));
     static QStringList getTextureFiles(QString texType, QString texRootFolder   = QString("Textures"));
-#endif // __NT_QT__
+#endif // NT_QT_FRAMEWORK
 
 private:
     GLenum m_TexureTarget;

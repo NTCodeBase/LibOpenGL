@@ -60,7 +60,7 @@ inline String GLErr2Str(GLenum err) {
 #endif
 
 #ifdef _DEBUG
-#   ifdef __NT_QT__
+#   ifdef NT_QT_FRAMEWORK
 #   define glCall(a)                                                                                    \
     a; {                                                                                                \
         GLenum err = glGetError();                                                                      \
@@ -93,7 +93,7 @@ inline String GLErr2Str(GLenum err) {
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // Abstract base class for all classes that call opengl functions
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
 class OpenGLCallable : public OpenGLFunctions {
 protected:
     OpenGLCallable() {

@@ -141,7 +141,7 @@ void OpenGLTexture::release() {
 }
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
 #include <QDir>
 #include <QStringList>
 #include <QString>
@@ -201,6 +201,6 @@ QStringList OpenGLTexture::getTextureFiles(QString texType, QString texRootFolde
     return dataDir.entryList();
 }
 
-#endif // __NT_QT__
+#endif // NT_QT_FRAMEWORK
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 } // end namespace NTCodeBase

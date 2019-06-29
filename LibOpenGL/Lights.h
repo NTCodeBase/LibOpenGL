@@ -1,4 +1,4 @@
-﻿//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 //    .--------------------------------------------------.
@@ -30,13 +30,13 @@ public:
     int  getNumLights() const { return m_NumActiveLights; }
     void createUniformBuffer();
 
-    virtual void setLightAmbient(const Vec4f& ambient, int lightID   = 0) = 0;
-    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID   = 0) = 0;
-    virtual void setLightSpecular(const Vec4f& specular, int lightID = 0) = 0;
+    virtual void setLightAmbient(const Vec4f& ambient, int lightID        = 0)= 0;
+    virtual void setLightDiffuse(const Vec4f& diffuse, int lightID        = 0)= 0;
+    virtual void setLightSpecular(const Vec4f& specular, int lightID      = 0)= 0;
 
-    virtual const Vec4f& getLightAmbient(int lightID  = 0) const = 0;
-    virtual const Vec4f& getLightDiffuse(int lightID  = 0) const = 0;
-    virtual const Vec4f& getLightSpecular(int lightID = 0) const = 0;
+    virtual const Vec4f& getLightAmbient(int lightID             = 0) const= 0;
+    virtual const Vec4f& getLightDiffuse(int lightID             = 0) const= 0;
+    virtual const Vec4f& getLightSpecular(int lightID            = 0) const= 0;
 
     void   bindUniformBuffer();
     GLuint getBufferBindingPoint();

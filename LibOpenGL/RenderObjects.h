@@ -56,7 +56,7 @@ protected:
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class SkyBoxRender : public RenderObject {
 public:
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
     SkyBoxRender(const SharedPtr<Camera>& camera, QString texureTopFolder, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr) :
         RenderObject(camera, bufferCamData), m_CurrentTexture(nullptr) {
         initRenderData();
@@ -335,7 +335,7 @@ private:
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class MeshRender : public RenderObject {
 public:
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
     MeshRender(const SharedPtr<MeshObjects::MeshObject>& meshObj, const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light,
                QString textureFolder,
                const SharedPtr<Material>& material = nullptr, const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr);
@@ -433,7 +433,7 @@ protected:
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 class PlaneRender : public MeshRender {
 public:
-#ifdef __NT_QT__
+#ifdef NT_QT_FRAMEWORK
     PlaneRender(const SharedPtr<Camera>& camera, const SharedPtr<PointLights>& light, QString textureFolder,
                 const SharedPtr<OpenGLBuffer>& bufferCamData = nullptr);
 #endif
